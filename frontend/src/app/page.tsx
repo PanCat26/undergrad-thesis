@@ -1,0 +1,23 @@
+"use client";
+
+import * as React from "react";
+import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
+
+import { useAuth } from "@/lib/auth";
+
+export default function Home() {
+  const { status } = useAuth();
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (status === "authenticated") router.replace("/projects");
+    else if (status === "unauthenticated") router.replace("/login");
+  }, [status, router]);
+
+  return (
+    <div className="flex min-h-screen items-center justify-center">
+      <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+    </div>
+  );
+}
