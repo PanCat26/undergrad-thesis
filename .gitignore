@@ -1,0 +1,44 @@
+# Environment
+.env
+.env.local
+.env.*.local
+*.tfvars
+!*.example.tfvars
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+.coverage
+htmlcov/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+.turbo/
+npm-debug.log*
+yarn-error.log*
+*.tsbuildinfo
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+
+# Local data / uploads
+/data/
+backend/data/
+*.pdf.local
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
