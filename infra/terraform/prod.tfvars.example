@@ -1,0 +1,6 @@
+aws_region  = "eu-central-1"
+environment = "prod"
+
+# Replace with the deployed frontend URL.
+callback_urls = ["https://your-domain.example"]
+logout_urls   = ["https://your-domain.example"]
