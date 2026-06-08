@@ -24,10 +24,13 @@ class Settings(BaseSettings):
 
     qdrant_url: str = "http://localhost:6333"
     qdrant_api_key: str | None = None
+    qdrant_collection: str = "source_chunks"
 
     storage_backend: Literal["local", "s3"] = "local"
     local_storage_dir: str = "/data/sources"
     s3_bucket: str | None = None
+
+    max_upload_mb: int = 25
 
     aws_region: str = "eu-central-1"
     aws_access_key_id: str | None = None
@@ -41,6 +44,7 @@ class Settings(BaseSettings):
 
     openai_api_key: str | None = None
     openai_model: str = "gpt-4o-mini"
+    openai_embedding_model: str = "text-embedding-3-small"
 
     @property
     def cors_origin_list(self) -> list[str]:
