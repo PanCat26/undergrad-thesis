@@ -36,6 +36,7 @@ interface AuthContextValue {
   logout: () => void;
   request: <T>(path: string, options?: Omit<RequestOptions, "token">) => Promise<T>;
   requestRaw: (path: string, options?: Omit<RequestOptions, "token">) => Promise<Response>;
+  upload: <T>(path: string, formData: FormData) => Promise<T>;
 }
 
 const AuthContext = React.createContext<AuthContextValue | null>(null);
@@ -113,6 +114,39 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     [token, logout]
   );
 
+  const upload = React.useCallback(
+    async <T,>(path: string, formData: FormData): Promise<T> => {
+      const headers: Record<string, string> = {};
+      if (token) headers["Authorization"] = `Bearer ${token}`;
+      let response: Response;
+      try {
+        response = await fetch(`${API_BASE_URL}${path}`, {
+          method: "POST",
+          headers,
+          body: formData,
+        });
+      } catch {
+        throw new ApiError(0, "network_error", "Cannot reach the server. Please try again.");
+      }
+      const isJson = response.headers.get("content-type")?.includes("application/json");
+      const payload = isJson ? await response.json() : null;
+      if (!response.ok) {
+        if (response.status === 401) {
+          if (token) toast.error("Your session has expired. Please log in again.");
+          logout();
+        }
+        throw new ApiError(
+          response.status,
+          payload?.error?.code ?? "error",
+          payload?.error?.message ?? "Upload failed",
+          payload?.error?.detail
+        );
+      }
+      return payload as T;
+    },
+    [token, logout]
+  );
+
   const startGuest = React.useCallback(async () => {
     persist(await apiRequest<TokenResponse>("/api/auth/guest", { method: "POST" }));
   }, [persist]);
@@ -181,6 +215,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     logout,
     request,
     requestRaw,
+    upload,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
