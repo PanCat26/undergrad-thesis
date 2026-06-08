@@ -14,9 +14,11 @@ import { Tooltip } from "@/components/ui/tooltip";
 import { EditorPane } from "@/components/workspace/editor-pane";
 import { FileTree } from "@/components/workspace/file-tree";
 import { PdfPreview } from "@/components/workspace/pdf-preview";
+import { SourcesPanel } from "@/components/workspace/sources-panel";
+import { SourceViewer } from "@/components/workspace/source-viewer";
 import { ApiError, getErrorMessage } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
-import type { Project, ProjectFile, ProjectFileContent } from "@/lib/types";
+import type { Project, ProjectFile, ProjectFileContent, Source } from "@/lib/types";
 
 const OUTER_LAYOUT = [22, 53, 25];
 const COLUMN_LAYOUT = [55, 45];
@@ -35,6 +37,7 @@ export function WorkspaceShell({ projectId }: { projectId: string }) {
   const [compiling, setCompiling] = React.useState(false);
   const [pdfUrl, setPdfUrl] = React.useState<string | null>(null);
   const [compileLog, setCompileLog] = React.useState<string | null>(null);
+  const [viewingSource, setViewingSource] = React.useState<Source | null>(null);
 
   const dirty = content !== baseContent;
   const pdfUrlRef = React.useRef<string | null>(null);
@@ -248,7 +251,14 @@ export function WorkspaceShell({ projectId }: { projectId: string }) {
             </ResizablePanel>
             <ResizableHandle withHandle onDoubleClick={() => leftColRef.current?.setLayout(COLUMN_LAYOUT)} />
             <ResizablePanel defaultSize={COLUMN_LAYOUT[1]} minSize={20}>
-              <Placeholder title="Sources" phase="Phase 3" />
+              <SourcesPanel
+                projectId={projectId}
+                viewingSourceId={viewingSource?.id ?? null}
+                onView={setViewingSource}
+                onSourceDeleted={(id) =>
+                  setViewingSource((cur) => (cur?.id === id ? null : cur))
+                }
+              />
             </ResizablePanel>
           </ResizablePanelGroup>
         </ResizablePanel>
@@ -256,27 +266,35 @@ export function WorkspaceShell({ projectId }: { projectId: string }) {
         <ResizableHandle withHandle onDoubleClick={() => outerRef.current?.setLayout(OUTER_LAYOUT)} />
 
         <ResizablePanel defaultSize={OUTER_LAYOUT[1]} minSize={30}>
-          <ResizablePanelGroup ref={centerColRef} direction="vertical">
-            <ResizablePanel defaultSize={COLUMN_LAYOUT[0]} minSize={20}>
-              <EditorPane
-                file={selectedFile}
-                content={content}
-                dirty={dirty}
-                saving={saving}
-                onChange={setContent}
-                onSave={handleSave}
-              />
-            </ResizablePanel>
-            <ResizableHandle withHandle onDoubleClick={() => centerColRef.current?.setLayout(COLUMN_LAYOUT)} />
-            <ResizablePanel defaultSize={COLUMN_LAYOUT[1]} minSize={20}>
-              <PdfPreview
-                pdfUrl={pdfUrl}
-                compileLog={compileLog}
-                compiling={compiling}
-                onCompile={handleCompile}
-              />
-            </ResizablePanel>
-          </ResizablePanelGroup>
+          {viewingSource ? (
+            <SourceViewer
+              projectId={projectId}
+              source={viewingSource}
+              onClose={() => setViewingSource(null)}
+            />
+          ) : (
+            <ResizablePanelGroup ref={centerColRef} direction="vertical">
+              <ResizablePanel defaultSize={COLUMN_LAYOUT[0]} minSize={20}>
+                <EditorPane
+                  file={selectedFile}
+                  content={content}
+                  dirty={dirty}
+                  saving={saving}
+                  onChange={setContent}
+                  onSave={handleSave}
+                />
+              </ResizablePanel>
+              <ResizableHandle withHandle onDoubleClick={() => centerColRef.current?.setLayout(COLUMN_LAYOUT)} />
+              <ResizablePanel defaultSize={COLUMN_LAYOUT[1]} minSize={20}>
+                <PdfPreview
+                  pdfUrl={pdfUrl}
+                  compileLog={compileLog}
+                  compiling={compiling}
+                  onCompile={handleCompile}
+                />
+              </ResizablePanel>
+            </ResizablePanelGroup>
+          )}
         </ResizablePanel>
 
         <ResizableHandle withHandle onDoubleClick={() => outerRef.current?.setLayout(OUTER_LAYOUT)} />

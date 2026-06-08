@@ -77,6 +77,9 @@ function basename(path: string): string {
   return path.split("/").pop() ?? path;
 }
 
+// Extensions that imply binary content but would be stored as plain text.
+const BINARY_EXT = /\.(pdf|docx?|xlsx?|pptx?|png|jpe?g|gif|bmp|webp|ico|tiff?|zip|tar|gz|rar|7z|mp4|mp3|wav)$/i;
+
 export function FileTree({
   files,
   selectedId,
@@ -293,6 +296,8 @@ function PathDialog({
     if (open) setPath(initial);
   }, [open, initial]);
 
+  const binaryExt = path.trim().match(BINARY_EXT)?.[0];
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!path.trim()) return;
@@ -325,6 +330,12 @@ function PathDialog({
               autoFocus
               required
             />
+            {binaryExt && (
+              <p className="text-xs text-amber-600 dark:text-amber-500">
+                This file will be stored as plain text. Binary formats such as {binaryExt} are not
+                supported in the editor.
+              </p>
+            )}
           </div>
           <DialogFooter>
             <Button type="submit" disabled={loading}>
