@@ -1,26 +1,14 @@
 import uuid
-from typing import Annotated
 
-from fastapi import APIRouter, Depends, Response, status
+from fastapi import APIRouter, Response, status
 from fastapi.concurrency import run_in_threadpool
 
-from app.api.deps import CurrentUserDep, SessionDep
-from app.models.project import Project
+from app.api.deps import OwnedProject, SessionDep
 from app.schemas.file import FileContentOut, FileCreate, FileOut, FileRename, FileUpdate
 from app.services import files as files_service
 from app.services import latex as latex_service
-from app.services import projects as projects_service
 
 router = APIRouter(prefix="/projects/{project_id}", tags=["files"])
-
-
-async def owned_project(
-    project_id: uuid.UUID, session: SessionDep, current: CurrentUserDep
-) -> Project:
-    return await projects_service.get_owned_project(session, project_id, current.user.id)
-
-
-OwnedProject = Annotated[Project, Depends(owned_project)]
 
 
 @router.get("/files", response_model=list[FileOut])

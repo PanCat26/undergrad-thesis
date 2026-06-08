@@ -9,7 +9,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.exceptions import AuthError, ForbiddenError
 from app.core.security import AuthIdentity, resolve_identity
 from app.db.session import get_session
+from app.models.project import Project
 from app.models.user import User
+from app.services import projects as projects_service
 from app.services import users
 
 _bearer = HTTPBearer(auto_error=False)
@@ -56,3 +58,13 @@ def require_cognito_user(current: CurrentUserDep) -> CurrentUser:
     if current.is_guest:
         raise ForbiddenError("This action is not available for guest sessions")
     return current
+
+
+async def owned_project(
+    project_id: uuid.UUID, session: SessionDep, current: CurrentUserDep
+) -> Project:
+    """Resolve a project owned by the current user (404 otherwise)."""
+    return await projects_service.get_owned_project(session, project_id, current.user.id)
+
+
+OwnedProject = Annotated[Project, Depends(owned_project)]
