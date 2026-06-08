@@ -18,3 +18,6 @@ class Project(UUIDMixin, TimestampMixin, Base):
     files: Mapped[list["ProjectFile"]] = relationship(  # noqa: F821
         back_populates="project", cascade="all, delete-orphan"
     )
+    sources: Mapped[list["Source"]] = relationship(  # noqa: F821
+        back_populates="project", cascade="all, delete-orphan"
+    )
