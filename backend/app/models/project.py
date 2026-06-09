@@ -21,3 +21,6 @@ class Project(UUIDMixin, TimestampMixin, Base):
     sources: Mapped[list["Source"]] = relationship(  # noqa: F821
         back_populates="project", cascade="all, delete-orphan"
     )
+    sessions: Mapped[list["ChatSession"]] = relationship(  # noqa: F821
+        back_populates="project", cascade="all, delete-orphan"
+    )
