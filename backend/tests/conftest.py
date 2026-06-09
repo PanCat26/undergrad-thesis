@@ -6,6 +6,7 @@ from httpx import ASGITransport, AsyncClient
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from sqlalchemy.pool import StaticPool
 
+import app.db.session as db_session_module
 from app.db.base import Base
 from app.db.session import get_session
 from app.main import create_app
@@ -31,6 +32,17 @@ def fake_cognito() -> FakeCognitoService:
     return FakeCognitoService()
 
 
+@pytest.fixture(autouse=True)
+def _no_draft_ingest(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Draft re-embedding (OpenAI + Qdrant) is verified live, not in unit tests."""
+
+    async def _noop(*args: object, **kwargs: object) -> None:
+        return None
+
+    monkeypatch.setattr("app.api.files.ingest_draft_file", _noop)
+    monkeypatch.setattr("app.api.files.cleanup_draft_file", _noop)
+
+
 @pytest_asyncio.fixture
 async def client(
     db_sessionmaker: async_sessionmaker, fake_cognito: FakeCognitoService
@@ -44,9 +56,17 @@ async def client(
     app.dependency_overrides[get_session] = override_get_session
     app.dependency_overrides[get_cognito_service] = lambda: fake_cognito
 
+    # Background tasks and the SSE stream open their own sessions via the global
+    # sessionmaker; point it at the test database for the duration of the test.
+    previous_sessionmaker = db_session_module._sessionmaker
+    db_session_module._sessionmaker = db_sessionmaker
+
     transport = ASGITransport(app=app)
-    async with AsyncClient(transport=transport, base_url="http://test") as http_client:
-        yield http_client
+    try:
+        async with AsyncClient(transport=transport, base_url="http://test") as http_client:
+            yield http_client
+    finally:
+        db_session_module._sessionmaker = previous_sessionmaker
 
 
 @pytest_asyncio.fixture

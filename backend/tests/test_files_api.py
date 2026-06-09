@@ -57,6 +57,26 @@ async def test_file_crud_flow(client: AsyncClient, guest_auth: dict) -> None:
     assert deleted.status_code == 204
 
 
+async def test_apply_creates_then_overwrites(client: AsyncClient, guest_auth: dict) -> None:
+    project_id = await _create_project(client, guest_auth)
+
+    first = await client.post(
+        f"/api/projects/{project_id}/files/apply",
+        headers=guest_auth,
+        json={"path": "notes.tex", "content": "hello"},
+    )
+    assert first.status_code == 200
+    assert first.json()["content"] == "hello"
+
+    second = await client.post(
+        f"/api/projects/{project_id}/files/apply",
+        headers=guest_auth,
+        json={"path": "notes.tex", "content": "world"},
+    )
+    assert second.json()["content"] == "world"
+    assert second.json()["id"] == first.json()["id"]
+
+
 async def test_invalid_path_is_rejected(client: AsyncClient, guest_auth: dict) -> None:
     project_id = await _create_project(client, guest_auth)
     resp = await client.post(
