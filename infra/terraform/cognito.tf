@@ -63,7 +63,7 @@ resource "aws_cognito_user_pool_client" "this" {
   prevent_user_existence_errors = "ENABLED"
 
   access_token_validity  = 60
-  id_token_validity       = 60
+  id_token_validity      = 60
   refresh_token_validity = 30
 
   token_validity_units {

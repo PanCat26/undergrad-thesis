@@ -1,0 +1,12 @@
+# Recommended for prod: store Terraform state in S3 (with DynamoDB locking) instead of the local
+# terraform.tfstate file. Create the bucket + lock table once (manually or in a separate bootstrap),
+# then copy this file to backend.tf and run `terraform init -migrate-state`.
+terraform {
+  backend "s3" {
+    bucket         = "research-tool-tfstate"
+    key            = "prod/terraform.tfstate"
+    region         = "eu-central-1"
+    dynamodb_table = "research-tool-tflock"
+    encrypt        = true
+  }
+}

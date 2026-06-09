@@ -3,11 +3,11 @@ import hashlib
 import hmac
 from typing import Any
 
-import boto3
 from botocore.exceptions import BotoCoreError, ClientError
 from fastapi.concurrency import run_in_threadpool
 
 from app.config import Settings, get_settings
+from app.core.aws import boto3_client
 from app.core.exceptions import (
     AppError,
     AuthError,
@@ -58,12 +58,7 @@ class CognitoService:
         self.settings = settings or get_settings()
         if not self.settings.cognito_client_id:
             logger.warning("Cognito client id is not configured; auth endpoints will fail")
-        self._client = boto3.client(
-            "cognito-idp",
-            region_name=self.settings.aws_region,
-            aws_access_key_id=self.settings.aws_access_key_id,
-            aws_secret_access_key=self.settings.aws_secret_access_key,
-        )
+        self._client = boto3_client("cognito-idp", self.settings)
 
     def _secret_hash(self, username: str) -> str | None:
         secret = self.settings.cognito_client_secret

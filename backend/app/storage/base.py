@@ -1,10 +1,10 @@
 import os
 from typing import Protocol
 
-import boto3
 from botocore.exceptions import BotoCoreError, ClientError
 
 from app.config import get_settings
+from app.core.aws import boto3_client
 from app.core.exceptions import ExternalServiceError
 from app.core.logging import get_logger
 
@@ -50,14 +50,8 @@ class LocalDiskStorage:
 
 class S3Storage:
     def __init__(self, bucket: str):
-        settings = get_settings()
         self.bucket = bucket
-        self._client = boto3.client(
-            "s3",
-            region_name=settings.aws_region,
-            aws_access_key_id=settings.aws_access_key_id,
-            aws_secret_access_key=settings.aws_secret_access_key,
-        )
+        self._client = boto3_client("s3", get_settings())
 
     def save(self, key: str, data: bytes) -> None:
         try:
