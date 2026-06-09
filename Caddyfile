@@ -1,0 +1,23 @@
+# Caddy obtains and renews a Let's Encrypt certificate for $DOMAIN automatically.
+# /api/* and /health go to the backend; everything else to the Next.js frontend.
+{$DOMAIN} {
+	encode gzip
+
+	# Security headers (HSTS, sniff/clickjacking/referrer protections).
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		-Server
+	}
+
+	@api path /api/* /health
+	handle @api {
+		reverse_proxy backend:8000
+	}
+
+	handle {
+		reverse_proxy frontend:3000
+	}
+}
