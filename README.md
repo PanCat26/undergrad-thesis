@@ -4,8 +4,8 @@ An agentic research workspace: a LaTeX editor (Overleaf-like), a library of uplo
 (papers and datasets), and an LLM agent that performs grounded, citation-backed research and
 literature review over the uploaded material and the current draft.
 
-The codebase is built in phases. Phase 1 (the current state) delivers the foundation: the monorepo,
-the local dev stack, Cognito-backed authentication, and project management.
+The codebase is built in phases: foundation + auth (1), LaTeX workspace (2), sources library +
+ingestion (3), the grounded Ask/Agent assistant (4), and production hardening + abuse guardrails (5).
 
 ## Stack
 
@@ -15,16 +15,16 @@ the local dev stack, Cognito-backed authentication, and project management.
 | Backend   | FastAPI, async SQLAlchemy, Alembic                    |
 | Auth      | AWS Cognito (real dev and prod user pools)            |
 | Datastore | PostgreSQL (relational), Qdrant (vectors, from Ph. 3) |
-| Agent     | LangChain + OpenAI (`gpt-4o-mini`), from Phase 4      |
+| Agent     | LangChain + OpenAI (`gpt-4.1-mini`), from Phase 4     |
 | Infra     | Docker Compose (dev), single EC2 + Terraform (prod)   |
 
 ## Repository layout
 
 ```
-backend/    FastAPI service, models, migrations, agent (later phases)
+backend/    FastAPI service, models, migrations, agent, abuse guardrails
 frontend/   Next.js app
-infra/       Terraform (Cognito now; full AWS in Phase 5)
-docs/        Additional documentation
+infra/       Terraform (Cognito, S3, EC2)
+docs/        Additional documentation (incl. DEPLOY.md)
 ```
 
 ## Local development
@@ -86,8 +86,22 @@ npm install
 npm test
 ```
 
+## Production deployment
+
+Production runs on a single EC2 host via `docker-compose.prod.yml` (Caddy with automatic HTTPS,
+the frontend, the backend, and Postgres + Qdrant as containers), with source files in **S3** and a
+prod **Cognito** pool. See [`docs/DEPLOY.md`](docs/DEPLOY.md) for the full runbook.
+
+## Abuse guardrails
+
+Because Guest mode is unauthenticated, the cost-bearing endpoints (chat/LLM, upload, compile) are
+rate-limited per identity (guests far tighter than registered users), guest-session creation is
+throttled per IP, and a global daily circuit breaker bounds total LLM usage. Counters live in
+Postgres; limits are in `backend/app/core/ratelimit.py`. In prod the app refuses to start unless
+`GUEST_TOKEN_SECRET` and the other required secrets are set.
+
 ## Environment split (dev vs prod)
 
-`APP_ENV` and the per-service variables in `.env` switch behaviour: local disk vs S3 for source
-storage, local Qdrant vs Qdrant Cloud, local Postgres vs RDS, and the dev vs prod Cognito pool.
+`APP_ENV` and the per-service variables switch behaviour: local disk vs **S3** for source storage,
+and the dev vs prod **Cognito** pool. Postgres and Qdrant run as containers in both dev and prod.
 Application code stays the same; only configuration changes.
