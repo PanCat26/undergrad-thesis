@@ -2,7 +2,13 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, status
 
-from app.api.deps import CurrentUser, CurrentUserDep, SessionDep, require_cognito_user
+from app.api.deps import (
+    CurrentUser,
+    CurrentUserDep,
+    GuestIssuanceThrottle,
+    SessionDep,
+    require_cognito_user,
+)
 from app.schemas.auth import (
     ChangePasswordRequest,
     ConfirmRequest,
@@ -24,7 +30,7 @@ CognitoDep = Annotated[CognitoService, Depends(get_cognito_service)]
 
 
 @router.post("/guest", response_model=TokenResponse)
-async def guest(session: SessionDep) -> TokenResponse:
+async def guest(session: SessionDep, _throttle: GuestIssuanceThrottle) -> TokenResponse:
     return await auth_service.start_guest_session(session)
 
 

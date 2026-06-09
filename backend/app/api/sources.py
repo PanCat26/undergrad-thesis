@@ -1,10 +1,11 @@
 import os
 import uuid
+from typing import Annotated
 
-from fastapi import APIRouter, BackgroundTasks, File, Response, UploadFile, status
+from fastapi import APIRouter, BackgroundTasks, Depends, File, Response, UploadFile, status
 from fastapi.concurrency import run_in_threadpool
 
-from app.api.deps import OwnedProject, SessionDep
+from app.api.deps import OwnedProject, SessionDep, rate_limit
 from app.config import get_settings
 from app.core.exceptions import BadRequestError
 from app.rag import qdrant
@@ -36,6 +37,7 @@ async def upload_source(
     project: OwnedProject,
     session: SessionDep,
     background: BackgroundTasks,
+    _rate_limited: Annotated[None, Depends(rate_limit("upload"))],
     file: UploadFile = File(...),
 ) -> SourceOut:
     filename = file.filename or "upload"

@@ -1,9 +1,10 @@
 import uuid
+from typing import Annotated
 
-from fastapi import APIRouter, BackgroundTasks, Response, status
+from fastapi import APIRouter, BackgroundTasks, Depends, Response, status
 from fastapi.concurrency import run_in_threadpool
 
-from app.api.deps import OwnedProject, SessionDep
+from app.api.deps import OwnedProject, SessionDep, rate_limit
 from app.rag.ingest import cleanup_draft_file, ingest_draft_file
 from app.schemas.file import (
     FileApply,
@@ -100,7 +101,11 @@ async def apply_file_edit(
 
 
 @router.post("/compile")
-async def compile_project(project: OwnedProject, session: SessionDep) -> Response:
+async def compile_project(
+    project: OwnedProject,
+    session: SessionDep,
+    _rate_limited: Annotated[None, Depends(rate_limit("compile"))],
+) -> Response:
     files = await files_service.list_files(session, project.id)
     sources = [(f.path, f.content) for f in files]
     pdf = await run_in_threadpool(latex_service.compile_project, sources)

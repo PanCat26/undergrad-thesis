@@ -1,11 +1,13 @@
 import uuid
+from collections.abc import Callable, Coroutine
 from dataclasses import dataclass
 from typing import Annotated
 
-from fastapi import Depends
+from fastapi import Depends, Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core import ratelimit
 from app.core.exceptions import AuthError, ForbiddenError
 from app.core.security import AuthIdentity, resolve_identity
 from app.db.session import get_session
@@ -68,3 +70,27 @@ async def owned_project(
 
 
 OwnedProject = Annotated[Project, Depends(owned_project)]
+
+
+def rate_limit(
+    scope: str, *, global_budget: bool = False
+) -> Callable[..., Coroutine[None, None, None]]:
+    """Build a dependency enforcing per-identity burst + daily limits for a cost-bearing scope
+    (guests are capped far tighter than registered users). Set `global_budget` on LLM endpoints to
+    also charge the app-wide daily circuit breaker."""
+
+    async def dependency(session: SessionDep, current: CurrentUserDep) -> None:
+        await ratelimit.enforce_scope(session, scope, str(current.user.id), current.is_guest)
+        if global_budget:
+            await ratelimit.enforce_global_budget(session)
+
+    return dependency
+
+
+async def throttle_guest_issuance(request: Request, session: SessionDep) -> None:
+    """Limit guest-session creation per client IP, to stop guest-token farming."""
+    ip = request.client.host if request.client else "unknown"
+    await ratelimit.enforce_guest_issuance(session, ip)
+
+
+GuestIssuanceThrottle = Annotated[None, Depends(throttle_guest_issuance)]

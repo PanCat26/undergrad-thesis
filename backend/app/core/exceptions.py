@@ -52,6 +52,11 @@ class ExternalServiceError(AppError):
     code = "external_service_error"
 
 
+class RateLimitError(AppError):
+    status_code = status.HTTP_429_TOO_MANY_REQUESTS
+    code = "rate_limited"
+
+
 def _error_body(code: str, message: str, detail: object | None = None) -> dict:
     body: dict = {"error": {"code": code, "message": message}}
     if detail is not None:
