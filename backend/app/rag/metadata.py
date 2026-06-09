@@ -19,7 +19,7 @@ _ARXIV_RE = re.compile(r"arxiv[:\s/]*\s*(\d{4}\.\d{4,5})(?:v\d+)?", re.IGNORECAS
 _ARXIV_BARE_RE = re.compile(r"(?<!\d)(\d{4}\.\d{4,5})(?:v\d+)?(?!\d)")
 _DOI_RE = re.compile(r"10\.\d{4,9}/[-._;()/:a-z0-9]+", re.IGNORECASE)
 
-_ARXIV_API = "http://export.arxiv.org/api/query"
+_ARXIV_API = "https://export.arxiv.org/api/query"
 _CROSSREF_API = "https://api.crossref.org/works/"
 _ATOM = "{http://www.w3.org/2005/Atom}"
 _USER_AGENT = "thesis-research-tool/1.0 (citation metadata lookup)"
@@ -88,7 +88,9 @@ def build_entry(meta: dict) -> tuple[str, str]:
 
 
 async def _fetch_arxiv(arxiv_id: str, timeout: float) -> dict | None:
-    async with httpx.AsyncClient(timeout=timeout, headers={"User-Agent": _USER_AGENT}) as client:
+    async with httpx.AsyncClient(
+        timeout=timeout, headers={"User-Agent": _USER_AGENT}, follow_redirects=True
+    ) as client:
         resp = await client.get(_ARXIV_API, params={"id_list": arxiv_id, "max_results": 1})
         resp.raise_for_status()
     entry = ElementTree.fromstring(resp.text).find(f"{_ATOM}entry")
@@ -115,7 +117,9 @@ async def _fetch_arxiv(arxiv_id: str, timeout: float) -> dict | None:
 
 
 async def _fetch_crossref(doi: str, timeout: float) -> dict | None:
-    async with httpx.AsyncClient(timeout=timeout, headers={"User-Agent": _USER_AGENT}) as client:
+    async with httpx.AsyncClient(
+        timeout=timeout, headers={"User-Agent": _USER_AGENT}, follow_redirects=True
+    ) as client:
         resp = await client.get(_CROSSREF_API + doi)
         resp.raise_for_status()
     message = resp.json().get("message", {})
