@@ -16,6 +16,7 @@ class SourceOut(BaseModel):
     status: str
     error: str | None
     chunk_count: int | None
+    cite_key: str | None
     created_at: datetime
     updated_at: datetime
 

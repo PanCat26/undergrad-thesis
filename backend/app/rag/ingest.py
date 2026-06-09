@@ -2,6 +2,7 @@ import uuid
 
 from fastapi.concurrency import run_in_threadpool
 
+from app.config import get_settings
 from app.core.logging import get_logger
 from app.db.session import get_sessionmaker
 from app.models.source import Source
@@ -9,7 +10,11 @@ from app.rag import qdrant
 from app.rag.chunk import chunk_segments
 from app.rag.embeddings import embed_texts
 from app.rag.extract import extract_segments
+from app.rag.metadata import fetch_citation
 from app.storage import get_storage
+
+# Cap how much text we scan for an arXiv id / DOI — they live on the first page or two.
+_METADATA_SCAN_CHARS = 20_000
 
 logger = get_logger("app.ingest")
 
@@ -30,6 +35,14 @@ async def ingest_source(source_id: uuid.UUID) -> None:
                 await qdrant.upsert_chunks(
                     source.project_id, source.id, source.kind, source.filename, chunks, vectors
                 )
+            settings = get_settings()
+            if source.kind == "paper" and settings.citation_lookup_enabled:
+                text = "\n".join(seg[0] for seg in segments)[:_METADATA_SCAN_CHARS]
+                citation = await fetch_citation(
+                    source.filename, text, timeout=settings.citation_lookup_timeout
+                )
+                if citation:
+                    source.cite_key, source.bibtex = citation
             source.status = "ready"
             source.chunk_count = len(chunks)
             await session.commit()

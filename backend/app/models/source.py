@@ -22,5 +22,8 @@ class Source(UUIDMixin, TimestampMixin, Base):
     )  # "processing" | "ready" | "failed"
     error: Mapped[str | None] = mapped_column(Text, nullable=True)
     chunk_count: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    # Verified citation metadata (papers only), fetched from arXiv/Crossref at ingestion.
+    cite_key: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    bibtex: Mapped[str | None] = mapped_column(Text, nullable=True)
 
     project: Mapped["Project"] = relationship(back_populates="sources")  # noqa: F821
