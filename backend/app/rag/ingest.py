@@ -5,6 +5,7 @@ from fastapi.concurrency import run_in_threadpool
 from app.config import get_settings
 from app.core.logging import get_logger
 from app.db.session import get_sessionmaker
+from app.models.file import ProjectFile
 from app.models.source import Source
 from app.rag import qdrant
 from app.rag.chunk import chunk_segments
@@ -52,3 +53,34 @@ async def ingest_source(source_id: uuid.UUID) -> None:
             source.status = "failed"
             source.error = str(exc)[:1000]
             await session.commit()
+
+
+async def ingest_draft_file(file_id: uuid.UUID) -> None:
+    """Re-embed a draft file's content so the agent can retrieve over the live draft.
+
+    Best-effort: draft RAG staleness should never break editing, so failures only log.
+    """
+    sessionmaker = get_sessionmaker()
+    async with sessionmaker() as session:
+        file = await session.get(ProjectFile, file_id)
+    if file is None:
+        return
+    try:
+        await qdrant.delete_draft_file(file.id)
+        chunks = await run_in_threadpool(chunk_segments, [(file.content, {})])
+        if chunks:
+            vectors = await embed_texts([c["text"] for c in chunks])
+            await qdrant.upsert_draft_chunks(
+                file.project_id, file.id, file.path, chunks, vectors
+            )
+        logger.info("re-embedded draft file %s (%d chunks)", file_id, len(chunks))
+    except Exception:  # noqa: BLE001 — draft indexing is best-effort
+        logger.exception("draft ingestion failed for file %s", file_id)
+
+
+async def cleanup_draft_file(file_id: uuid.UUID) -> None:
+    """Best-effort removal of a deleted file's draft vectors."""
+    try:
+        await qdrant.delete_draft_file(file_id)
+    except Exception:  # noqa: BLE001 — must not fail the delete request
+        logger.exception("draft cleanup failed for file %s", file_id)

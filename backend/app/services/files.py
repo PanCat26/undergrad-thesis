@@ -61,6 +61,26 @@ async def create_file(
     return file
 
 
+async def upsert_file(
+    session: AsyncSession, project_id: uuid.UUID, path: str, content: str
+) -> ProjectFile:
+    """Create the file at `path`, or overwrite its content if it already exists."""
+    result = await session.execute(
+        select(ProjectFile).where(
+            ProjectFile.project_id == project_id, ProjectFile.path == path
+        )
+    )
+    file = result.scalar_one_or_none()
+    if file is None:
+        file = ProjectFile(project_id=project_id, path=path, content=content)
+        session.add(file)
+    else:
+        file.content = content
+    await session.commit()
+    await session.refresh(file)
+    return file
+
+
 async def update_content(session: AsyncSession, file: ProjectFile, content: str) -> ProjectFile:
     file.content = content
     await session.commit()

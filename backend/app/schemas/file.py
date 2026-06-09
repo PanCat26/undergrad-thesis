@@ -38,6 +38,11 @@ class FileUpdate(BaseModel):
     content: str
 
 
+class FileApply(BaseModel):
+    path: RelativePath
+    content: str
+
+
 class FileOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
