@@ -56,7 +56,7 @@ function ModelCard() {
         <CardDescription>Model selection will be configurable in a future release.</CardDescription>
       </CardHeader>
       <CardContent>
-        <span className="rounded-md bg-muted px-3 py-1.5 text-sm font-medium">gpt-4o-mini</span>
+        <span className="rounded-md bg-muted px-3 py-1.5 text-sm font-medium">gpt-4.1-mini</span>
       </CardContent>
     </Card>
   );

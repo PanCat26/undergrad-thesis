@@ -36,3 +36,38 @@ export interface SourcePreview {
   columns?: string[] | null;
   rows?: string[][] | null;
 }
+
+export interface ChatSession {
+  id: string;
+  title: string;
+  mode: "qa" | "agentic";
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Citation {
+  index: number;
+  kind: "source" | "draft";
+  filename: string;
+  loc: { page?: number };
+  source_id: string | null;
+  file_id: string | null;
+}
+
+export interface ProposedEdit {
+  path: string;
+  diff: string;
+  content: string;
+  status: "pending" | "applied" | "rejected";
+}
+
+export interface ChatMessage {
+  id: string;
+  role: "user" | "assistant";
+  content: string;
+  citations: Citation[] | null;
+  created_at: string;
+  // Tool-call chain + proposed edits, shown live during streaming (not persisted).
+  steps?: string[];
+  proposals?: ProposedEdit[];
+}

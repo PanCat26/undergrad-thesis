@@ -11,6 +11,7 @@ import type { ImperativePanelGroupHandle } from "react-resizable-panels";
 
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import { Tooltip } from "@/components/ui/tooltip";
+import { AssistantPanel } from "@/components/workspace/assistant-panel";
 import { EditorPane } from "@/components/workspace/editor-pane";
 import { FileTree } from "@/components/workspace/file-tree";
 import { PdfPreview } from "@/components/workspace/pdf-preview";
@@ -221,6 +222,37 @@ export function WorkspaceShell({ projectId }: { projectId: string }) {
     );
   }
 
+  const handleViewSourceById = async (sourceId: string) => {
+    try {
+      const source = await request<Source>(`${base}/sources/${sourceId}`);
+      setViewingSource(source);
+    } catch (err) {
+      toast.error(getErrorMessage(err, "Failed to open source"));
+    }
+  };
+
+  const handleOpenFileByPath = (path: string) => {
+    const file = files.find((f) => f.path === path);
+    if (!file) return;
+    setViewingSource(null);
+    void handleSelect(file);
+  };
+
+  const handleEditApplied = async (path: string) => {
+    try {
+      const list = await request<ProjectFile[]>(`${base}/files`);
+      setFiles(list);
+      const target = list.find((f) => f.path === path);
+      if (target && target.id === selectedId) {
+        const fresh = await request<ProjectFileContent>(`${base}/files/${target.id}`);
+        setContent(fresh.content);
+        setBaseContent(fresh.content);
+      }
+    } catch {
+      // best effort; the file was written regardless
+    }
+  };
+
   const selectedFile = files.find((f) => f.id === selectedId) ?? null;
 
   return (
@@ -300,22 +332,14 @@ export function WorkspaceShell({ projectId }: { projectId: string }) {
         <ResizableHandle withHandle onDoubleClick={() => outerRef.current?.setLayout(OUTER_LAYOUT)} />
 
         <ResizablePanel defaultSize={OUTER_LAYOUT[2]} minSize={18}>
-          <Placeholder title="Assistant" phase="Phase 4" />
+          <AssistantPanel
+            projectId={projectId}
+            onViewSource={handleViewSourceById}
+            onOpenFile={handleOpenFileByPath}
+            onEditApplied={handleEditApplied}
+          />
         </ResizablePanel>
       </ResizablePanelGroup>
-    </div>
-  );
-}
-
-function Placeholder({ title, phase }: { title: string; phase: string }) {
-  return (
-    <div className="flex h-full flex-col">
-      <div className="shrink-0 border-b px-3 py-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-        {title}
-      </div>
-      <div className="flex flex-1 items-center justify-center p-4 text-center text-xs text-muted-foreground">
-        Coming in {phase}
-      </div>
     </div>
   );
 }
