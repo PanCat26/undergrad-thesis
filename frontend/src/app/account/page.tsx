@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { PasswordInput } from "@/components/ui/password-input";
+import { ModelCard } from "@/components/account/model-card";
 import { getErrorMessage } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 
@@ -45,20 +46,6 @@ export default function AccountPage() {
         </main>
       </div>
     </AuthGuard>
-  );
-}
-
-function ModelCard() {
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Model</CardTitle>
-        <CardDescription>Model selection will be configurable in a future release.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <span className="rounded-md bg-muted px-3 py-1.5 text-sm font-medium">gpt-4.1-mini</span>
-      </CardContent>
-    </Card>
   );
 }
 

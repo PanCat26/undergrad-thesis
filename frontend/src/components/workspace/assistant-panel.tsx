@@ -186,7 +186,8 @@ export function AssistantPanel({
           }));
         } else if (event.type === "error") {
           toast.error(event.message);
-          patch((m) => ({ ...m, content: m.content || "Sorry, something went wrong." }));
+          // Persist the specific reason in the thread (e.g. a failing custom model).
+          patch((m) => ({ ...m, content: m.content || `⚠️ ${event.message}` }));
         }
       });
     } catch (err) {

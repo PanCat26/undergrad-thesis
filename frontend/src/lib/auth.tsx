@@ -11,6 +11,19 @@ export interface User {
   id: string;
   email: string | null;
   is_guest: boolean;
+  llm_model?: string | null;
+  llm_base_url?: string | null;
+}
+
+export interface LlmChoice {
+  model: string | null;
+  base_url: string | null;
+  api_key: string | null;
+}
+
+export interface LlmTestResult {
+  ok: boolean;
+  error?: string | null;
 }
 
 interface TokenResponse {
@@ -33,6 +46,8 @@ interface AuthContextValue {
   resetPassword: (email: string, code: string, newPassword: string) => Promise<void>;
   changePassword: (oldPassword: string, newPassword: string) => Promise<void>;
   deleteAccount: () => Promise<void>;
+  updateLlm: (choice: LlmChoice) => Promise<void>;
+  testLlm: (choice: LlmChoice) => Promise<LlmTestResult>;
   logout: () => void;
   request: <T>(path: string, options?: Omit<RequestOptions, "token">) => Promise<T>;
   requestRaw: (path: string, options?: Omit<RequestOptions, "token">) => Promise<Response>;
@@ -200,6 +215,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     logout();
   }, [request, logout]);
 
+  const updateLlm = React.useCallback(
+    async (choice: LlmChoice) => {
+      const updated = await request<User>("/api/auth/me", { method: "PATCH", body: choice });
+      setUser(updated);
+    },
+    [request]
+  );
+
+  const testLlm = React.useCallback(
+    (choice: LlmChoice) =>
+      request<LlmTestResult>("/api/auth/llm-test", { method: "POST", body: choice }),
+    [request]
+  );
+
   const value: AuthContextValue = {
     status,
     user,
@@ -212,6 +241,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     resetPassword,
     changePassword,
     deleteAccount,
+    updateLlm,
+    testLlm,
     logout,
     request,
     requestRaw,
