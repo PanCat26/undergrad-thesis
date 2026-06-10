@@ -47,7 +47,9 @@ async def test_session_crud_and_isolation(client: AsyncClient, guest_auth: dict)
 async def test_message_streams_with_tool_calls_and_persists(
     client: AsyncClient, guest_auth: dict, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    async def fake_run_agent(project_id, query, history, source_names=(), mode="qa"):  # noqa: ANN001
+    async def fake_run_agent(  # noqa: ANN001
+        project_id, query, history, source_names=(), mode="qa", llm_config=None
+    ):
         yield {"type": "tool_call", "summary": 'Searched sources: "method"'}
         yield {"type": "token", "text": "Grounded "}
         yield {"type": "token", "text": "answer [1]"}
@@ -97,7 +99,9 @@ async def test_message_streams_with_tool_calls_and_persists(
 async def test_message_abstention_has_no_citations(
     client: AsyncClient, guest_auth: dict, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    async def fake_run_agent(project_id, query, history, source_names=(), mode="qa"):  # noqa: ANN001
+    async def fake_run_agent(  # noqa: ANN001
+        project_id, query, history, source_names=(), mode="qa", llm_config=None
+    ):
         yield {"type": "token", "text": "I don't have enough information in the sources."}
         yield {
             "type": "final",
@@ -155,7 +159,9 @@ async def test_output_moderation_replaces_and_suppresses_edits(
     async def fake_flag(text):  # noqa: ANN001
         return "TOXIC" in text
 
-    async def fake_run_agent(project_id, query, history, source_names=(), mode="qa"):  # noqa: ANN001
+    async def fake_run_agent(  # noqa: ANN001
+        project_id, query, history, source_names=(), mode="qa", llm_config=None
+    ):
         yield {"type": "final", "content": "TOXIC content", "citations": [{"index": 1}]}
         yield {"type": "proposed_edit", "path": "main.tex", "diff": "@@", "content": "x"}
 
@@ -179,7 +185,9 @@ async def test_output_moderation_replaces_and_suppresses_edits(
 async def test_agent_mode_forwards_proposed_edits(
     client: AsyncClient, guest_auth: dict, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    async def fake_run_agent(project_id, query, history, source_names=(), mode="qa"):  # noqa: ANN001
+    async def fake_run_agent(  # noqa: ANN001
+        project_id, query, history, source_names=(), mode="qa", llm_config=None
+    ):
         yield {"type": "final", "content": "Added a section.", "citations": []}
         yield {"type": "proposed_edit", "path": "main.tex", "diff": "@@ -1 +1", "content": "new"}
 
