@@ -5,7 +5,7 @@ import { AuthProvider } from "@/lib/auth";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Agentic Research Tool",
+  title: "Evidentia Research Tool",
   description: "A LaTeX workspace with grounded, agentic research over your sources.",
 };
 

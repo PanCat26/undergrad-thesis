@@ -42,7 +42,7 @@ export function AppHeader() {
   return (
     <header className="flex h-14 shrink-0 items-center justify-between border-b px-6">
       <Link href="/projects" className="font-semibold">
-        Research Tool
+        Evidentia Research Tool
       </Link>
       <div className="flex items-center gap-2">
         <span

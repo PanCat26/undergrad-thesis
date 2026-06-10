@@ -103,7 +103,7 @@ export default function LoginPage() {
     <div className="flex min-h-screen flex-col items-center justify-center gap-4 px-4">
       <Card className="w-full max-w-sm">
         <CardHeader>
-          <CardTitle>Agentic Research Tool</CardTitle>
+          <CardTitle>Evidentia Research Tool</CardTitle>
           <CardDescription>
             {view === "auth" && "Sign in or create an account to continue"}
             {view === "confirm" && "Enter the confirmation code sent to your email"}
