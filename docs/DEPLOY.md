@@ -93,3 +93,8 @@ crontab -e
 - **No static AWS keys** in prod: leaving `AWS_ACCESS_KEY_ID`/`AWS_SECRET_ACCESS_KEY` empty makes
   boto3 use the EC2 instance role for S3 (and Cognito) calls.
 - **Tectonic** downloads its TeX bundle on the first compile (needs outbound internet once).
+- **Second OpenAI model:** `gpt-5.4-mini` is offered in Account → Model by default (override with
+  `OPENAI_ALT_MODEL` / `OPENAI_ALT_LABEL` if needed).
+- **User "local model" on the hosted instance:** the server can't reach a user's laptop directly.
+  The user exposes their model with a tunnel (`cloudflared tunnel --url http://localhost:11434`) and
+  pastes the public `https://…/v1` URL in Account → Model. See README → *Choosing a model*.

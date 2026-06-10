@@ -100,6 +100,24 @@ throttled per IP, and a global daily circuit breaker bounds total LLM usage. Cou
 Postgres; limits are in `backend/app/core/ratelimit.py`. In prod the app refuses to start unless
 `GUEST_TOKEN_SECRET` and the other required secrets are set.
 
+## Choosing a model
+
+Logged-in users pick the chat model in **Account → Model**: `gpt-4.1-mini` (default), `gpt-5.4-mini`,
+or **their own OpenAI-compatible endpoint** (Ollama, LM Studio, vLLM, …). Use **Test connection** to verify a custom endpoint before relying on it. (Guests always
+use the default; embeddings and moderation always use the server model.)
+
+**Use a local model:**
+1. Run one, e.g. with Ollama: `ollama run llama3.1`.
+2. **Dev** (app running locally): in Account → Model, choose *Local / custom model*, set the endpoint
+   to `http://host.docker.internal:11434/v1` and the model name to `llama3.1`. **Use
+   `host.docker.internal`, not `127.0.0.1`/`localhost`** — the backend runs in a container, where
+   `127.0.0.1` is the container itself, not your machine.
+3. **Prod** (hosted): the server can't reach your laptop directly, so expose the model first —
+   `cloudflared tunnel --url http://localhost:11434` — and paste the printed `https://…/v1` URL as the
+   endpoint. (A tunnel/VPN URL is required; a bare `localhost` won't work from the server.)
+
+Note: a custom model must support OpenAI-style tool-calling for Agent/Ask to work fully.
+
 ## Environment split (dev vs prod)
 
 `APP_ENV` and the per-service variables switch behaviour: local disk vs **S3** for source storage,
