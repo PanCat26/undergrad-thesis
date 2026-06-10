@@ -1,6 +1,6 @@
 import uuid
 
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 
 class RegisterRequest(BaseModel):
@@ -34,9 +34,14 @@ class ChangePasswordRequest(BaseModel):
 
 
 class UserOut(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: uuid.UUID
     email: str | None
     is_guest: bool
+    # Current chat-model choice; null base_url ⇒ an OpenAI preset (or the default).
+    llm_model: str | None = None
+    llm_base_url: str | None = None
 
 
 class TokenResponse(BaseModel):
@@ -48,3 +53,23 @@ class TokenResponse(BaseModel):
 
 class MessageResponse(BaseModel):
     message: str
+
+
+class LlmPreset(BaseModel):
+    """A selectable OpenAI chat model (uses the server key)."""
+
+    id: str
+    label: str
+
+
+class LlmUpdate(BaseModel):
+    """Set the user's chat model. All-null ⇒ server default. A base_url ⇒ custom endpoint."""
+
+    model: str | None = Field(default=None, max_length=255)
+    base_url: str | None = Field(default=None, max_length=512)
+    api_key: str | None = Field(default=None, max_length=512)
+
+
+class LlmTestResult(BaseModel):
+    ok: bool
+    error: str | None = None

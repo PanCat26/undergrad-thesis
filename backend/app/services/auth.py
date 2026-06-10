@@ -8,7 +8,7 @@ from app.services.cognito import CognitoService
 
 
 def _user_out(user: User) -> UserOut:
-    return UserOut(id=user.id, email=user.email, is_guest=user.is_guest)
+    return UserOut.model_validate(user)
 
 
 async def start_guest_session(session: AsyncSession) -> TokenResponse:
