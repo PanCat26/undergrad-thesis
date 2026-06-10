@@ -45,6 +45,9 @@ class Settings(BaseSettings):
     openai_api_key: str | None = None
     openai_model: str = "gpt-4.1-mini"
     openai_embedding_model: str = "text-embedding-3-small"
+    # Second selectable OpenAI chat model (offered in Settings alongside the default).
+    openai_alt_model: str | None = "gpt-5.4-mini"
+    openai_alt_label: str = "gpt-5.4-mini"
 
     # Citation metadata lookup at ingestion (arXiv/Crossref). Disable in tests/offline.
     citation_lookup_enabled: bool = True

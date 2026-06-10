@@ -12,6 +12,12 @@ class User(UUIDMixin, TimestampMixin, Base):
     email: Mapped[str | None] = mapped_column(String(320), nullable=True)
     is_guest: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
 
+    # Per-user chat model choice (registered users only). NULL ⇒ server default.
+    # A base_url makes it a custom OpenAI-compatible endpoint (local/tunneled model).
+    llm_model: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    llm_base_url: Mapped[str | None] = mapped_column(String(512), nullable=True)
+    llm_api_key: Mapped[str | None] = mapped_column(String(512), nullable=True)
+
     projects: Mapped[list["Project"]] = relationship(  # noqa: F821
         back_populates="owner", cascade="all, delete-orphan"
     )
