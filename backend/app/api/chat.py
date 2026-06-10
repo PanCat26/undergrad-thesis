@@ -7,8 +7,9 @@ from fastapi import APIRouter, Depends, status
 from fastapi.responses import StreamingResponse
 
 from app.agent.ask import run_agent
+from app.agent.llm import resolve_llm_config
 from app.agent.moderation import is_flagged
-from app.api.deps import OwnedProject, SessionDep, rate_limit
+from app.api.deps import CurrentUserDep, OwnedProject, SessionDep, rate_limit
 from app.config import get_settings
 from app.core.logging import get_logger
 from app.db.session import get_sessionmaker
@@ -80,6 +81,7 @@ async def send_message(
     payload: MessageCreate,
     project: OwnedProject,
     session: SessionDep,
+    current: CurrentUserDep,
     _rate_limited: Annotated[None, Depends(rate_limit("chat", global_budget=True))],
 ) -> StreamingResponse:
     settings = get_settings()
@@ -94,6 +96,9 @@ async def send_message(
     source_names = [s.filename for s in await sources_service.list_sources(session, project.id)]
     session_id_value = chat_session.id
     mode = chat_session.mode
+    # Per-user chat model (the user's own/custom endpoint, an OpenAI preset, or the server default).
+    llm_config = resolve_llm_config(current.user)
+    custom_model = llm_config.base_url is not None
 
     async def event_stream() -> AsyncIterator[str]:
         try:
@@ -110,7 +115,9 @@ async def send_message(
             content = ""
             citations: list[dict] = []
             suppressed = False
-            async for event in run_agent(project.id, payload.content, history, source_names, mode):
+            async for event in run_agent(
+                project.id, payload.content, history, source_names, mode, llm_config
+            ):
                 if event["type"] == "final":
                     # Output moderation — replace flagged answers and drop their proposals.
                     if await is_flagged(event["content"]):
@@ -132,6 +139,13 @@ async def send_message(
             yield _sse({"type": "done"})
         except Exception:  # noqa: BLE001 — surface a clean error event to the client
             logger.exception("chat stream failed")
-            yield _sse({"type": "error", "message": "The assistant failed to respond."})
+            # A custom model is the likely culprit when the user configured one; point them at it.
+            message = (
+                "Your selected model failed (it may be unreachable or incompatible). "
+                "Check Settings → Model."
+                if custom_model
+                else "The assistant failed to respond."
+            )
+            yield _sse({"type": "error", "message": message})
 
     return StreamingResponse(event_stream(), media_type="text/event-stream")

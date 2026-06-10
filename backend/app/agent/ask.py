@@ -6,10 +6,9 @@ from collections.abc import AsyncIterator, Sequence
 
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage, ToolMessage
 from langchain_core.tools import tool
-from langchain_openai import ChatOpenAI
 
+from app.agent.llm import LlmConfig, build_chat_openai, resolve_llm_config
 from app.agent.qa import _format_loc, _strip_inline_refs
-from app.config import get_settings
 from app.core.logging import get_logger
 from app.db.session import get_sessionmaker
 from app.rag.retrieve import RetrievedChunk, retrieve
@@ -329,20 +328,18 @@ async def run_agent(
     history: Sequence[tuple[str, str]],
     source_names: Sequence[str] = (),
     mode: str = "qa",
+    llm_config: LlmConfig | None = None,
 ) -> AsyncIterator[dict]:
     """Run the agent. In 'agentic' mode it can also propose draft edits (emitted as proposed_edit
-    events after the final answer). Yields tool_call, token, final, and proposed_edit events."""
-    settings = get_settings()
+    events after the final answer). Yields tool_call, token, final, and proposed_edit events.
+
+    llm_config selects the chat model (per-user); falls back to the server default when omitted."""
+    config = llm_config or resolve_llm_config(None)
     registry: list[dict] = []
     edits: dict = {"original": {}, "working": {}}
     tools = _build_tools(project_id, registry, edits, mode)
     tools_by_name = {t.name: t for t in tools}
-    llm = ChatOpenAI(
-        model=settings.openai_model,
-        api_key=settings.openai_api_key,
-        temperature=0,
-        timeout=_REQUEST_TIMEOUT,
-    ).bind_tools(tools)
+    llm = build_chat_openai(config, temperature=0, timeout=_REQUEST_TIMEOUT).bind_tools(tools)
 
     async def execute_tool(call: dict) -> str:
         tool = tools_by_name.get(call["name"])
@@ -396,12 +393,7 @@ async def run_agent(
     # If the run ended on tool calls without a closing message, ask for a short summary
     # (no tools) so the user always gets a textual answer.
     if not answered and not "".join(answer_parts).strip():
-        plain = ChatOpenAI(
-            model=settings.openai_model,
-            api_key=settings.openai_api_key,
-            temperature=0,
-            timeout=_REQUEST_TIMEOUT,
-        )
+        plain = build_chat_openai(config, temperature=0, timeout=_REQUEST_TIMEOUT)
         messages.append(
             HumanMessage(content="Briefly summarize for the user what you did, in 1-3 sentences.")
         )
