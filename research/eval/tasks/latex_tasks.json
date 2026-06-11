@@ -1,0 +1,105 @@
+[
+  {
+    "id": "tex-01",
+    "instruction": "Add a new section titled 'Background' with one sentence of body text, placed before \\end{document} in main.tex.",
+    "main": "\\documentclass{article}\n\\begin{document}\n\\section{Introduction}\nThis is the intro.\n\\end{document}\n"
+  },
+  {
+    "id": "tex-02",
+    "instruction": "Add the amsmath package to the preamble and insert a displayed equation $E=mc^2$ in the body.",
+    "main": "\\documentclass{article}\n\\begin{document}\n\\section{Physics}\nMass and energy are related.\n\\end{document}\n"
+  },
+  {
+    "id": "tex-03",
+    "instruction": "There is a \\cite{smith2020} with no matching bibliography entry. Add a references.bib with a matching entry and wire up \\bibliography and \\bibliographystyle in main.tex so it compiles.",
+    "main": "\\documentclass{article}\n\\begin{document}\n\\section{Related Work}\nPrior work studied this \\cite{smith2020}.\n\\end{document}\n"
+  },
+  {
+    "id": "tex-04",
+    "instruction": "Create a new file methods.tex containing a 'Methods' section, and \\input it from main.tex before \\end{document}.",
+    "main": "\\documentclass{article}\n\\begin{document}\n\\section{Introduction}\nIntro text.\n\\end{document}\n"
+  },
+  {
+    "id": "tex-05",
+    "instruction": "Add an itemize list with three items describing contributions, inside the existing section.",
+    "main": "\\documentclass{article}\n\\begin{document}\n\\section{Contributions}\nOur contributions are as follows.\n\\end{document}\n"
+  },
+  {
+    "id": "tex-06",
+    "instruction": "Add a title, author, and \\maketitle to the document.",
+    "main": "\\documentclass{article}\n\\begin{document}\n\\section{Overview}\nSome overview text.\n\\end{document}\n"
+  },
+  {
+    "id": "tex-07",
+    "instruction": "Add an abstract environment with one sentence before the first section.",
+    "main": "\\documentclass{article}\n\\begin{document}\n\\section{Introduction}\nIntro.\n\\end{document}\n"
+  },
+  {
+    "id": "tex-08",
+    "instruction": "Insert a numbered equation using the equation environment (load amsmath) for the quadratic formula.",
+    "main": "\\documentclass{article}\n\\begin{document}\n\\section{Math}\nThe quadratic formula solves quadratics.\n\\end{document}\n"
+  },
+  {
+    "id": "tex-09",
+    "instruction": "Add a second section 'Results' after the existing one with a short sentence.",
+    "main": "\\documentclass{article}\n\\begin{document}\n\\section{Methods}\nWe describe the method.\n\\end{document}\n"
+  },
+  {
+    "id": "tex-10",
+    "instruction": "Add a tabular with two columns and two rows summarizing a comparison.",
+    "main": "\\documentclass{article}\n\\begin{document}\n\\section{Comparison}\nWe compare two systems.\n\\end{document}\n"
+  },
+  {
+    "id": "tex-11",
+    "instruction": "Add the hyperref package and a \\url to https://example.com in the body.",
+    "main": "\\documentclass{article}\n\\begin{document}\n\\section{Links}\nSee our website.\n\\end{document}\n"
+  },
+  {
+    "id": "tex-12",
+    "instruction": "Convert the inline math x^2 + y^2 in the text into a displayed equation.",
+    "main": "\\documentclass{article}\n\\begin{document}\n\\section{Geometry}\nThe circle satisfies x squared plus y squared equals r squared.\n\\end{document}\n"
+  },
+  {
+    "id": "tex-13",
+    "instruction": "Add a footnote to the first sentence of the section.",
+    "main": "\\documentclass{article}\n\\begin{document}\n\\section{Notes}\nThis claim needs a footnote.\n\\end{document}\n"
+  },
+  {
+    "id": "tex-14",
+    "instruction": "Add a second \\cite to an existing references.bib (add a new @article entry too) and cite it in the text.",
+    "main": "\\documentclass{article}\n\\begin{document}\n\\section{Related Work}\nFoundational work \\cite{doe2019}.\n\\bibliographystyle{plain}\n\\bibliography{references}\n\\end{document}\n",
+    "extra_files": [
+      {"path": "references.bib", "content": "@article{doe2019, title={A Study}, author={Doe, Jane}, year={2019}, journal={J. Things}}\n"}
+    ]
+  },
+  {
+    "id": "tex-15",
+    "instruction": "Add an enumerate list of two steps to the methods section.",
+    "main": "\\documentclass{article}\n\\begin{document}\n\\section{Methods}\nOur procedure has several steps.\n\\end{document}\n"
+  },
+  {
+    "id": "tex-16",
+    "instruction": "Add a \\subsection inside the existing section with a sentence.",
+    "main": "\\documentclass{article}\n\\begin{document}\n\\section{Approach}\nOverview of the approach.\n\\end{document}\n"
+  },
+  {
+    "id": "tex-17",
+    "instruction": "Fix the broken document: there is a missing \\end{document}. Add it.",
+    "main": "\\documentclass{article}\n\\begin{document}\n\\section{Intro}\nThis document is missing its end.\n"
+  },
+  {
+    "id": "tex-18",
+    "instruction": "Add the graphicx package to the preamble (do not add an actual image).",
+    "main": "\\documentclass{article}\n\\begin{document}\n\\section{Figures}\nFigures will go here.\n\\end{document}\n"
+  },
+  {
+    "id": "tex-19",
+    "instruction": "Add a centered displayed equation for the sum of the first n integers (load amsmath).",
+    "main": "\\documentclass{article}\n\\begin{document}\n\\section{Series}\nThe sum of the first n integers has a closed form.\n\\end{document}\n"
+  },
+  {
+    "id": "tex-20",
+    "instruction": "Create a new appendix.tex with an \\section*{Appendix} and \\input it from main.tex.",
+    "main": "\\documentclass{article}\n\\begin{document}\n\\section{Main}\nMain content.\n\\end{document}\n"
+  }
+]
