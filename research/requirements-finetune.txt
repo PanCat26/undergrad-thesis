@@ -1,0 +1,15 @@
+# Fine-tuning environment. Install into its own venv:
+#   python -m venv .venv-finetune && . .venv-finetune/bin/activate
+#   pip install -r requirements-finetune.txt
+# Install a CUDA build of torch matching the box first (see README), then this file.
+
+torch>=2.3                 # install the CUDA wheel for your driver BEFORE the rest
+transformers>=4.51         # Qwen3 architecture support landed in 4.51
+datasets>=2.19
+accelerate>=0.30
+peft>=0.11                 # LoRA / QLoRA adapters
+trl>=0.9                   # SFTTrainer
+bitsandbytes>=0.43         # 4-bit NF4 quantization for QLoRA
+sentencepiece>=0.2
+protobuf>=4.25
+pyyaml>=6.0

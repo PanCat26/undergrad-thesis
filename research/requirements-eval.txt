@@ -1,0 +1,15 @@
+# Evaluation environment (no GPU needed — runs against API/served models). Own venv:
+#   python -m venv .venv-eval && . .venv-eval/bin/activate   (Windows: .venv-eval\Scripts\activate)
+#   pip install -r requirements-eval.txt
+#   pip install -e ../backend          # makes `app.*` importable (real agent loop + Tectonic)
+#
+# The backend install brings langchain-openai / openai (the agent under test). DeepEval is pinned
+# to a range known to coexist with it; if pip reports a conflict, resolve in THIS venv only.
+
+deepeval>=1.0,<2.0         # judge framework (FaithfulnessMetric + GEval), judge-model agnostic
+anthropic>=0.39            # Claude Sonnet 4.6 judge via deepeval.models.AnthropicModel
+rank-bm25>=0.2.2           # deterministic offline retrieval for eval tool backends
+datasets>=2.19             # pulls the validation splits when building the eval set (one-time)
+tiktoken>=0.7              # token counting for the deployability metrics
+pandas>=2.2                # results tables
+python-dotenv>=1.0         # load OPENAI_API_KEY / ANTHROPIC_API_KEY from research/.env

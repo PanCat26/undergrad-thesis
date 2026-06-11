@@ -1,0 +1,21 @@
+# Generated artifacts — never commit datasets, weights, or eval outputs
+data/out/
+finetune/outputs/
+finetune/merged/
+eval/results/
+*.gguf
+*.safetensors
+
+# Secrets — keep real keys out of git (commit .env.example, not .env)
+.env
+
+# Local venvs
+.venv-finetune/
+.venv-eval/
+.venv/
+
+# Caches
+__pycache__/
+.pytest_cache/
+.deepeval/
+*.pyc
