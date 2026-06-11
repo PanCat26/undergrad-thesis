@@ -8,7 +8,7 @@ Slices (proportions match the thesis plan):
   tool use      40%  Salesforce/xlam-function-calling-60k + glaiveai/glaive-function-calling-v2
   grounding     30%  hotpot_qa (supporting facts -> [n] citation targets)
   abstention    15%  rajpurkar/squad_v2 (unanswerable half -> refusals; answerable -> controls)
-  scientific    10%  allenai/qasper (QA grounded in paper evidence)
+  scientific    10%  qiaojin/PubMedQA (QA grounded in paper abstracts)
   latex          5%  synthetic write_file/edit_file trajectories over small LaTeX docs
 
 Design notes
@@ -47,7 +47,7 @@ PROPORTIONS = {
     "glaive": 0.15,
     "hotpot": 0.30,
     "squad": 0.15,
-    "qasper": 0.10,
+    "pubmedqa": 0.10,
     "latex": 0.05,
 }
 
@@ -242,30 +242,18 @@ def convert_squad(ex: dict) -> dict | None:
     return _search_trajectory(question, [context], answer)
 
 
-def convert_qasper(ex: dict) -> list[dict]:
-    """QASPER -> one grounded trajectory per answerable question with extractive evidence.
+def convert_pubmedqa(ex: dict) -> dict | None:
+    """PubMedQA -> grounded scientific-QA trajectory; the abstract's passages are the cited context.
 
-    QASPER stores one paper per row with a parallel `qas` structure. We pull (question, evidence,
-    answer) triples defensively and skip anything malformed or unanswerable-without-evidence.
+    (QASPER was the original scientific slice but ships only as a loading script, which the current
+    `datasets` library no longer runs; PubMedQA is Parquet-native and a clean grounded-QA fit.)
     """
-    out: list[dict] = []
-    qas = ex.get("qas", {})
-    questions = qas.get("question", [])
-    answers_per_q = qas.get("answers", [])
-    if not questions or len(questions) != len(answers_per_q):
-        return out
-    for question, ans_group in zip(questions, answers_per_q):
-        answer_list = (ans_group or {}).get("answer", [])
-        for ans in answer_list:
-            evidence = [e for e in ans.get("evidence", []) if e and e.strip()]
-            free = (ans.get("free_form_answer") or "").strip()
-            extractive = [s for s in ans.get("extractive_spans", []) if s and s.strip()]
-            text = free or ("; ".join(extractive) if extractive else "")
-            if not evidence or not text or ans.get("unanswerable"):
-                continue
-            out.append(_search_trajectory(question.strip(), evidence[:4], f"{text} [1]"))
-            break  # one trajectory per question is plenty
-    return out
+    question = (ex.get("question") or "").strip()
+    contexts = [c.strip() for c in ex.get("context", {}).get("contexts", []) if c and c.strip()]
+    answer = (ex.get("long_answer") or "").strip()
+    if not question or not contexts or not answer:
+        return None
+    return _search_trajectory(question, contexts[:4], f"{answer} [1]")
 
 
 # ---- synthetic LaTeX edit/write trajectories (agentic mode) -------------------------------
@@ -402,19 +390,13 @@ def _selftest() -> int:
         "squad_no": convert_squad(
             {"question": "What is the price?", "context": "The book is about history.", "answers": {"text": []}}
         ),
-        "qasper": (
-            convert_qasper(
-                {
-                    "qas": {
-                        "question": ["What dataset is used?"],
-                        "answers": [
-                            {"answer": [{"free_form_answer": "We use SQuAD.", "evidence": ["Experiments run on SQuAD."], "extractive_spans": [], "unanswerable": False}]}
-                        ],
-                    }
-                }
-            )
-            or [None]
-        )[0],
+        "pubmedqa": convert_pubmedqa(
+            {
+                "question": "Does aspirin reduce cardiovascular risk?",
+                "context": {"contexts": ["A randomized trial of 10,000 patients.", "Aspirin lowered events by 20%."]},
+                "long_answer": "Aspirin reduced cardiovascular events in this cohort.",
+            }
+        ),
         "latex": synth_latex(random.Random(0)),
     }
     ok = True
@@ -443,7 +425,7 @@ def _load_split(name: str, limit: int | None):
         "glaive": ("glaiveai/glaive-function-calling-v2", None, "train"),
         "hotpot": ("hotpotqa/hotpot_qa", "distractor", "train"),
         "squad": ("rajpurkar/squad_v2", None, "train"),
-        "qasper": ("allenai/qasper", None, "train"),
+        "pubmedqa": ("qiaojin/PubMedQA", "pqa_artificial", "train"),
     }[name]
     path, config, split = spec
     if limit:
@@ -459,19 +441,10 @@ def _build_slice(name: str, target: int, limit: int | None, rng: random.Random) 
         "glaive": convert_glaive,
         "hotpot": convert_hotpot,
         "squad": convert_squad,
+        "pubmedqa": convert_pubmedqa,
     }.get(name)
     records: list[dict] = []
     ds = _load_split(name, limit or target * 3)
-    if name == "qasper":
-        for ex in ds:
-            for rec in convert_qasper(ex):
-                if not validate_record(rec):
-                    records.append(rec)
-                if len(records) >= target:
-                    break
-            if len(records) >= target:
-                break
-        return records
     for ex in ds:
         rec = converter(ex)
         if rec and not validate_record(rec):
