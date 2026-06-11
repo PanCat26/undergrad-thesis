@@ -25,14 +25,35 @@ There are two independent environments; set them up separately.
 
 ## A. Evaluation environment (no GPU required)
 
-The evaluation runs against API or served models and needs no GPU. It imports the backend (for the
-real agent loop + Tectonic) plus a few extra dependencies.
+The evaluation imports the backend (for the real agent loop + Tectonic), so the most reliable setup
+is to **reuse the backend's own virtualenv** and add the eval-only packages to it. The backend's
+dependencies are already resolved there, which sidesteps the fresh-resolution conflicts a brand-new
+venv can hit. From the repo root, with the backend venv active:
 
 ```bash
-python -m venv .venv-eval && . .venv-eval/bin/activate    # Windows: .venv-eval\Scripts\activate
-pip install -r requirements-eval.txt
-pip install -e ../backend          # makes `app.*` importable
+. backend/.venv/Scripts/Activate.ps1            # Linux/macOS: . backend/.venv/bin/activate
+pip install -r research/requirements-eval.txt   # eval-only deps; backend deps already satisfied
+pip install -e ./backend --no-deps              # makes `app` importable without touching deps
 ```
+
+Adding the eval packages does not disturb the backend's pinned stack (pydantic, langchain, openai…).
+
+<details>
+<summary>Alternative: a standalone eval venv (use Python 3.12)</summary>
+
+A separate venv also works, but a *fresh* dependency resolution can fail when transitive packages
+publish incompatible new releases — e.g. a `grpcio` with no wheel for your Python version (Python
+3.13 is prone to this), or a `pydantic-core` clash. If you go this route, use **Python 3.12** and
+install the backend first:
+
+```bash
+py -3.12 -m venv .venv-eval && . .venv-eval/Scripts/activate
+pip install -e ../backend
+pip install -r requirements-eval.txt
+```
+
+If pip reports a resolution conflict, fall back to reusing the backend venv as above.
+</details>
 
 Two API keys are required — the agent under test calls OpenAI, and the DeepEval judge calls Claude.
 Both are read from environment variables (`OPENAI_API_KEY`, `ANTHROPIC_API_KEY`). The simplest way
@@ -49,8 +70,6 @@ export OPENAI_API_KEY=sk-... ANTHROPIC_API_KEY=sk-ant-...   # bash
 $env:OPENAI_API_KEY="sk-..."; $env:ANTHROPIC_API_KEY="sk-ant-..."   # PowerShell
 ```
 
-> **Tectonic** must be on PATH to score the LaTeX category (it is the same engine the backend
-> uses). If it is missing, the suite still runs and the `compile_rate` column shows `n/a`.
 
 ### 1. Build the frozen evaluation set (80 tasks, from validation splits — no leakage)
 

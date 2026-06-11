@@ -1,10 +1,12 @@
-# Evaluation environment (no GPU needed — runs against API/served models). Own venv:
-#   python -m venv .venv-eval && . .venv-eval/bin/activate   (Windows: .venv-eval\Scripts\activate)
+# Evaluation environment (no GPU needed — runs against API/served models). Own venv, Python 3.12:
+#   py -3.12 -m venv .venv-eval && . .venv-eval/bin/activate   (Windows: .venv-eval\Scripts\activate)
+#   pip install -e ../backend          # install the backend FIRST (real agent loop + Tectonic)
 #   pip install -r requirements-eval.txt
-#   pip install -e ../backend          # makes `app.*` importable (real agent loop + Tectonic)
 #
-# The backend install brings langchain-openai / openai (the agent under test). DeepEval is pinned
-# to a range known to coexist with it; if pip reports a conflict, resolve in THIS venv only.
+# Use Python 3.12, NOT 3.13: the backend's qdrant-client -> grpcio dependency may resolve to a
+# version with no 3.13 wheel and try to compile from C source. Install the backend before this file
+# so grpcio/protobuf resolve cleanly. The backend brings langchain-openai / openai (the agent under
+# test); DeepEval is pinned to a coexisting range — resolve any conflict in THIS venv only.
 
 deepeval>=1.0,<2.0         # judge framework (FaithfulnessMetric + GEval), judge-model agnostic
 anthropic>=0.39            # Claude Sonnet 4.6 judge via deepeval.models.AnthropicModel
