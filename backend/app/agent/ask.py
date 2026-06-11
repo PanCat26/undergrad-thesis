@@ -322,24 +322,27 @@ def _build_tools(project_id, registry: list[dict], edits: dict, mode: str) -> li
     return [*tools, write_file, edit_file]
 
 
-async def run_agent(
-    project_id,
-    query: str,
-    history: Sequence[tuple[str, str]],
-    source_names: Sequence[str] = (),
-    mode: str = "qa",
-    llm_config: LlmConfig | None = None,
+async def _run_tool_loop(
+    messages: list,
+    tools: Sequence,
+    config: LlmConfig,
+    *,
+    registry: list[dict],
+    edits: dict,
+    temperature: float = 0,
+    trace: list[dict] | None = None,
 ) -> AsyncIterator[dict]:
-    """Run the agent. In 'agentic' mode it can also propose draft edits (emitted as proposed_edit
-    events after the final answer). Yields tool_call, token, final, and proposed_edit events.
+    """Drive the bind_tools streaming loop over ``messages`` until the model answers (or the
+    iteration/time budget runs out), then emit the finalized answer and any proposed edits.
 
-    llm_config selects the chat model (per-user); falls back to the server default when omitted."""
-    config = llm_config or resolve_llm_config(None)
-    registry: list[dict] = []
-    edits: dict = {"original": {}, "working": {}}
-    tools = _build_tools(project_id, registry, edits, mode)
+    Shared by the production agent (``run_agent``, with Qdrant/DB-backed tools) and the thesis eval
+    harness (with bundled-context tools), so both exercise the identical loop. ``registry`` collects
+    citations as tools format chunks; ``edits`` collects staged file writes. Pass a list as ``trace``
+    to capture each tool call as ``{"name", "args"}`` (used by the eval's tool-use metric) — this is
+    a pure side-channel and does not change the emitted events. Yields token/tool_call/final/
+    proposed_edit events exactly as before regardless of caller."""
     tools_by_name = {t.name: t for t in tools}
-    llm = build_chat_openai(config, temperature=0, timeout=_REQUEST_TIMEOUT).bind_tools(tools)
+    llm = build_chat_openai(config, temperature=temperature, timeout=_REQUEST_TIMEOUT).bind_tools(tools)
 
     async def execute_tool(call: dict) -> str:
         tool = tools_by_name.get(call["name"])
@@ -351,15 +354,6 @@ async def run_agent(
             logger.warning("tool %s failed: %s", call["name"], exc)
             hint = _TOOL_USAGE.get(call["name"], "")
             return f"That {call['name']} call was invalid ({exc.__class__.__name__}). {hint}".strip()
-
-    inventory = "; ".join(source_names) if source_names else "(none uploaded yet)"
-    system = ASK_SYSTEM + (AGENT_EXTRA if mode == "agentic" else "")
-    messages: list = [
-        SystemMessage(content=f"{system}\n\nThe user's project currently contains these sources: {inventory}.")
-    ]
-    for role, content in history:
-        messages.append(HumanMessage(content=content) if role == "user" else AIMessage(content=content))
-    messages.append(HumanMessage(content=query))
 
     answer_parts: list[str] = []
     answered = False
@@ -384,6 +378,8 @@ async def run_agent(
             break
 
         for call in tool_calls:
+            if trace is not None:
+                trace.append({"name": call["name"], "args": call.get("args", {})})
             yield {"type": "tool_call", "summary": _tool_summary(call["name"], call.get("args", {}))}
         # Run this turn's tool calls concurrently, then append results in order.
         results = await asyncio.gather(*(execute_tool(call) for call in tool_calls))
@@ -393,7 +389,7 @@ async def run_agent(
     # If the run ended on tool calls without a closing message, ask for a short summary
     # (no tools) so the user always gets a textual answer.
     if not answered and not "".join(answer_parts).strip():
-        plain = build_chat_openai(config, temperature=0, timeout=_REQUEST_TIMEOUT)
+        plain = build_chat_openai(config, temperature=temperature, timeout=_REQUEST_TIMEOUT)
         messages.append(
             HumanMessage(content="Briefly summarize for the user what you did, in 1-3 sentences.")
         )
@@ -418,3 +414,33 @@ async def run_agent(
                 "diff": _make_diff(path, original, new_content),
                 "content": new_content,
             }
+
+
+async def run_agent(
+    project_id,
+    query: str,
+    history: Sequence[tuple[str, str]],
+    source_names: Sequence[str] = (),
+    mode: str = "qa",
+    llm_config: LlmConfig | None = None,
+) -> AsyncIterator[dict]:
+    """Run the agent. In 'agentic' mode it can also propose draft edits (emitted as proposed_edit
+    events after the final answer). Yields tool_call, token, final, and proposed_edit events.
+
+    llm_config selects the chat model (per-user); falls back to the server default when omitted."""
+    config = llm_config or resolve_llm_config(None)
+    registry: list[dict] = []
+    edits: dict = {"original": {}, "working": {}}
+    tools = _build_tools(project_id, registry, edits, mode)
+
+    inventory = "; ".join(source_names) if source_names else "(none uploaded yet)"
+    system = ASK_SYSTEM + (AGENT_EXTRA if mode == "agentic" else "")
+    messages: list = [
+        SystemMessage(content=f"{system}\n\nThe user's project currently contains these sources: {inventory}.")
+    ]
+    for role, content in history:
+        messages.append(HumanMessage(content=content) if role == "user" else AIMessage(content=content))
+    messages.append(HumanMessage(content=query))
+
+    async for event in _run_tool_loop(messages, tools, config, registry=registry, edits=edits):
+        yield event
