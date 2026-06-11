@@ -1,0 +1,46 @@
+# QLoRA SFT config for Qwen3-8B (Evidentia thesis). Consumed by train_qlora.py.
+# Hyperparameters are the locked thesis values; override any on the CLI, e.g.
+#   python train_qlora.py --config config.yaml --num-train-epochs 1
+
+model:
+  base_model: Qwen/Qwen3-8B
+  max_seq_len: 8192
+  attn_implementation: flash_attention_2   # falls back to "sdpa" automatically if unavailable
+
+data:
+  train_file: ../data/out/train.jsonl
+  val_file: ../data/out/val.jsonl
+
+# 4-bit NF4 base (QLoRA)
+quantization:
+  load_in_4bit: true
+  bnb_4bit_quant_type: nf4
+  bnb_4bit_use_double_quant: true
+  bnb_4bit_compute_dtype: bfloat16
+
+# LoRA adapters
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+
+training:
+  output_dir: ./outputs/qwen3-8b-evidentia-qlora
+  num_train_epochs: 2          # 1-3; thesis default 2
+  per_device_train_batch_size: 2
+  gradient_accumulation_steps: 8   # effective batch ~16
+  learning_rate: 2.0e-4
+  lr_scheduler_type: cosine
+  warmup_ratio: 0.03
+  weight_decay: 0.0
+  bf16: true
+  gradient_checkpointing: true
+  logging_steps: 10
+  eval_strategy: steps
+  eval_steps: 100
+  save_strategy: steps
+  save_steps: 200
+  save_total_limit: 2
+  seed: 13
+  report_to: none              # set to "wandb" if you want logging
