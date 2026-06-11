@@ -98,7 +98,7 @@ def build_from_hf(per_category: int) -> list[dict]:
         )
 
     # --- hotpot_qa validation: synthesis (multi-source) ---
-    hotpot = load_dataset("hotpot_qa", "distractor", split="validation")
+    hotpot = load_dataset("hotpotqa/hotpot_qa", "distractor", split="validation")
     count = 0
     for ex in hotpot:
         ctx = ex.get("context", {})

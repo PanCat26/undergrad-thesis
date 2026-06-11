@@ -441,7 +441,7 @@ def _load_split(name: str, limit: int | None):
     spec = {
         "xlam": ("Salesforce/xlam-function-calling-60k", None, "train"),
         "glaive": ("glaiveai/glaive-function-calling-v2", None, "train"),
-        "hotpot": ("hotpot_qa", "distractor", "train"),
+        "hotpot": ("hotpotqa/hotpot_qa", "distractor", "train"),
         "squad": ("rajpurkar/squad_v2", None, "train"),
         "qasper": ("allenai/qasper", None, "train"),
     }[name]
