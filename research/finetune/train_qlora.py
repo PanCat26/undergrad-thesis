@@ -103,7 +103,7 @@ def main() -> int:
 
     sft_config = SFTConfig(
         output_dir=output_dir,
-        max_seq_length=m["max_seq_len"],
+        max_length=m["max_seq_len"],  # renamed from max_seq_length in recent TRL
         num_train_epochs=1 if args.smoke else tr["num_train_epochs"],
         max_steps=10 if args.smoke else -1,
         per_device_train_batch_size=tr["per_device_train_batch_size"],
