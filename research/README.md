@@ -123,7 +123,8 @@ are the final output of the suite.
 
 ```bash
 python -m venv .venv-finetune && . .venv-finetune/bin/activate
-pip install torch --index-url https://download.pytorch.org/whl/cu121   # match the box's CUDA
+pip install torch --index-url https://download.pytorch.org/whl/cu128   # Blackwell; use cu121 for older GPUs
+pip install -U bitsandbytes                                            # ensure sm_120 kernels on Blackwell
 pip install -r requirements-finetune.txt
 ```
 
