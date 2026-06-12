@@ -1,0 +1,2028 @@
+{
+  "model": "qwen3-8b-base",
+  "aggregate": {
+    "n": 80,
+    "tool_appropriate": 0.95,
+    "arg_valid": 1.0,
+    "faithfulness": 0.9699,
+    "citation": 0.8718,
+    "abstention_acc": 0.45,
+    "compile_rate": null,
+    "compile_n_scored": 0,
+    "quality_1_5": 4.27,
+    "avg_tokens_per_sec": 80.1452,
+    "avg_ttft_s": 0.0539,
+    "errors": 0
+  },
+  "tasks": [
+    {
+      "id": "lk-00",
+      "category": "lookup",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 80.61551938464576,
+        "ttft_s": 0.691645420040004,
+        "latency_s": 6.33571995398961
+      },
+      "grounding": {
+        "faithfulness": 1.0,
+        "citation": 1.0
+      },
+      "quality": {
+        "raw": 0.9,
+        "score_1_5": 4.6
+      }
+    },
+    {
+      "id": "lk-01",
+      "category": "lookup",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 78.48001277276359,
+        "ttft_s": 0.03020916902460158,
+        "latency_s": 5.547537526930682
+      },
+      "grounding": {
+        "faithfulness": 1.0,
+        "citation": 0.9
+      },
+      "quality": {
+        "raw": 1.0,
+        "score_1_5": 5.0
+      }
+    },
+    {
+      "id": "lk-02",
+      "category": "lookup",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 80.11377479067508,
+        "ttft_s": 0.04248561803251505,
+        "latency_s": 5.285029751015827
+      },
+      "grounding": {
+        "faithfulness": 1.0,
+        "citation": 1.0
+      },
+      "quality": {
+        "raw": 0.9,
+        "score_1_5": 4.6
+      }
+    },
+    {
+      "id": "lk-03",
+      "category": "lookup",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 80.4300459662402,
+        "ttft_s": 0.04246195196174085,
+        "latency_s": 5.127626271918416
+      },
+      "grounding": {
+        "faithfulness": 1.0,
+        "citation": 1.0
+      },
+      "quality": {
+        "raw": 0.9,
+        "score_1_5": 4.6
+      }
+    },
+    {
+      "id": "lk-04",
+      "category": "lookup",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 78.84288719005785,
+        "ttft_s": 0.04672639397904277,
+        "latency_s": 6.299668384948745
+      },
+      "grounding": {
+        "faithfulness": 0.8333333333333334,
+        "citation": 1.0
+      },
+      "quality": {
+        "raw": 0.9,
+        "score_1_5": 4.6
+      }
+    },
+    {
+      "id": "lk-05",
+      "category": "lookup",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 78.94646880265174,
+        "ttft_s": 0.050764915999025106,
+        "latency_s": 5.421492783003487
+      },
+      "grounding": {
+        "faithfulness": 0.8,
+        "citation": 1.0
+      },
+      "quality": {
+        "raw": 0.9,
+        "score_1_5": 4.6
+      }
+    },
+    {
+      "id": "lk-06",
+      "category": "lookup",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 80.95870757844447,
+        "ttft_s": 0.045451299054548144,
+        "latency_s": 7.580156561103649
+      },
+      "grounding": {
+        "faithfulness": 1.0,
+        "citation": 1.0
+      },
+      "quality": {
+        "raw": 0.6,
+        "score_1_5": 3.4
+      }
+    },
+    {
+      "id": "lk-07",
+      "category": "lookup",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 81.48959154530618,
+        "ttft_s": 0.040524834068492055,
+        "latency_s": 7.894288583076559
+      },
+      "grounding": {
+        "faithfulness": 1.0,
+        "citation": 1.0
+      },
+      "quality": {
+        "raw": 0.8,
+        "score_1_5": 4.2
+      }
+    },
+    {
+      "id": "lk-08",
+      "category": "lookup",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 2,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 79.61559298704074,
+        "ttft_s": 0.045611690962687135,
+        "latency_s": 8.64945390704088
+      },
+      "grounding": {
+        "faithfulness": 0.8888888888888888,
+        "citation": 1.0
+      },
+      "quality": {
+        "raw": 0.8,
+        "score_1_5": 4.2
+      }
+    },
+    {
+      "id": "lk-09",
+      "category": "lookup",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 82.35006311203647,
+        "ttft_s": 0.045968005899339914,
+        "latency_s": 6.287614709930494
+      },
+      "grounding": {
+        "faithfulness": 1.0,
+        "citation": 0.9
+      },
+      "quality": {
+        "raw": 0.9,
+        "score_1_5": 4.6
+      }
+    },
+    {
+      "id": "lk-10",
+      "category": "lookup",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 79.9113212071373,
+        "ttft_s": 0.04846584494225681,
+        "latency_s": 5.767305091954768
+      },
+      "grounding": {
+        "faithfulness": 1.0,
+        "citation": 1.0
+      },
+      "quality": {
+        "raw": 0.9,
+        "score_1_5": 4.6
+      }
+    },
+    {
+      "id": "lk-11",
+      "category": "lookup",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 82.04449477188994,
+        "ttft_s": 0.05054262210614979,
+        "latency_s": 8.314351204084232
+      },
+      "grounding": {
+        "faithfulness": 1.0,
+        "citation": 1.0
+      },
+      "quality": {
+        "raw": 0.9,
+        "score_1_5": 4.6
+      }
+    },
+    {
+      "id": "lk-12",
+      "category": "lookup",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 2,
+        "called": [
+          "list_sources",
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 81.49083832166873,
+        "ttft_s": 0.043303765007294714,
+        "latency_s": 8.731396986055188
+      },
+      "grounding": {
+        "faithfulness": 1.0,
+        "citation": 1.0
+      },
+      "quality": {
+        "raw": 0.1,
+        "score_1_5": 1.4
+      }
+    },
+    {
+      "id": "lk-13",
+      "category": "lookup",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 82.63468856739905,
+        "ttft_s": 0.04625113098882139,
+        "latency_s": 7.101399641949683
+      },
+      "grounding": {
+        "faithfulness": 1.0,
+        "citation": 0.5
+      },
+      "quality": {
+        "raw": 0.9,
+        "score_1_5": 4.6
+      }
+    },
+    {
+      "id": "lk-14",
+      "category": "lookup",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 83.20463895569948,
+        "ttft_s": 0.04578997800126672,
+        "latency_s": 9.083747589960694
+      },
+      "grounding": {
+        "faithfulness": 1.0,
+        "citation": 1.0
+      },
+      "quality": {
+        "raw": 0.9,
+        "score_1_5": 4.6
+      }
+    },
+    {
+      "id": "lk-15",
+      "category": "lookup",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 80.04307948393428,
+        "ttft_s": 0.05009016289841384,
+        "latency_s": 3.660645901923999
+      },
+      "grounding": {
+        "faithfulness": 1.0,
+        "citation": null,
+        "citation_error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model."
+      },
+      "quality": {
+        "raw": 0.9,
+        "score_1_5": 4.6
+      }
+    },
+    {
+      "id": "lk-16",
+      "category": "lookup",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 80.52869741920304,
+        "ttft_s": 0.05052026896737516,
+        "latency_s": 4.68240942095872
+      },
+      "grounding": {
+        "faithfulness": 1.0,
+        "citation": 1.0
+      },
+      "quality": {
+        "raw": 1.0,
+        "score_1_5": 5.0
+      }
+    },
+    {
+      "id": "lk-17",
+      "category": "lookup",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 2,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 80.3846827902571,
+        "ttft_s": 0.04802755708806217,
+        "latency_s": 9.93797141709365
+      },
+      "grounding": {
+        "faithfulness": 0.875,
+        "citation": 0.4
+      },
+      "quality": {
+        "raw": 0.1,
+        "score_1_5": 1.4
+      }
+    },
+    {
+      "id": "lk-18",
+      "category": "lookup",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 80.01723182718747,
+        "ttft_s": 0.04791559895966202,
+        "latency_s": 4.959357684943825
+      },
+      "grounding": {
+        "faithfulness": 1.0,
+        "citation": 1.0
+      },
+      "quality": {
+        "raw": 1.0,
+        "score_1_5": 5.0
+      }
+    },
+    {
+      "id": "lk-19",
+      "category": "lookup",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 80.01772788709458,
+        "ttft_s": 0.04941045306622982,
+        "latency_s": 5.0358054749667645
+      },
+      "grounding": {
+        "faithfulness": 1.0,
+        "citation": 1.0
+      },
+      "quality": {
+        "raw": 1.0,
+        "score_1_5": 5.0
+      }
+    },
+    {
+      "id": "ab-00",
+      "category": "abstention",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 79.1419767295507,
+        "ttft_s": 0.04777996498160064,
+        "latency_s": 7.565914140897803
+      },
+      "abstention": {
+        "abstained": false,
+        "correct": false
+      }
+    },
+    {
+      "id": "ab-01",
+      "category": "abstention",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 82.63383043477486,
+        "ttft_s": 0.04453034698963165,
+        "latency_s": 6.180031960946508
+      },
+      "abstention": {
+        "abstained": false,
+        "correct": false
+      }
+    },
+    {
+      "id": "ab-02",
+      "category": "abstention",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 83.42259588881186,
+        "ttft_s": 0.04608827503398061,
+        "latency_s": 83.41678569698706
+      },
+      "abstention": {
+        "abstained": false,
+        "correct": false
+      }
+    },
+    {
+      "id": "ab-03",
+      "category": "abstention",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 83.06942030036251,
+        "ttft_s": 0.053076675976626575,
+        "latency_s": 11.055922208004631
+      },
+      "abstention": {
+        "abstained": false,
+        "correct": false
+      }
+    },
+    {
+      "id": "ab-04",
+      "category": "abstention",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 81.83990671860622,
+        "ttft_s": 0.05771727301180363,
+        "latency_s": 6.704841173952445
+      },
+      "abstention": {
+        "abstained": false,
+        "correct": false
+      }
+    },
+    {
+      "id": "ab-05",
+      "category": "abstention",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 82.5335321692259,
+        "ttft_s": 0.0458629879867658,
+        "latency_s": 6.782518810010515
+      },
+      "abstention": {
+        "abstained": false,
+        "correct": false
+      }
+    },
+    {
+      "id": "ab-06",
+      "category": "abstention",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 81.59242977130519,
+        "ttft_s": 0.04673691897187382,
+        "latency_s": 5.856099396944046
+      },
+      "abstention": {
+        "abstained": false,
+        "correct": false
+      }
+    },
+    {
+      "id": "ab-07",
+      "category": "abstention",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 81.99676753208321,
+        "ttft_s": 0.04576039407402277,
+        "latency_s": 7.387513223104179
+      },
+      "abstention": {
+        "abstained": false,
+        "correct": false
+      }
+    },
+    {
+      "id": "ab-08",
+      "category": "abstention",
+      "error": null,
+      "tool_use": {
+        "appropriate": false,
+        "arg_valid": 1.0,
+        "n_calls": 0,
+        "called": []
+      },
+      "perf": {
+        "tokens_per_sec": 85.48065274608625,
+        "ttft_s": 0.04527341295033693,
+        "latency_s": 6.116822744021192
+      },
+      "abstention": {
+        "abstained": true,
+        "correct": true
+      }
+    },
+    {
+      "id": "ab-09",
+      "category": "abstention",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 80.79465685731675,
+        "ttft_s": 0.05565570795442909,
+        "latency_s": 4.152461274992675
+      },
+      "abstention": {
+        "abstained": false,
+        "correct": false
+      }
+    },
+    {
+      "id": "ab-10",
+      "category": "abstention",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 81.30753242143119,
+        "ttft_s": 0.04870919999666512,
+        "latency_s": 6.247396885999478
+      },
+      "abstention": {
+        "abstained": true,
+        "correct": false
+      }
+    },
+    {
+      "id": "ab-11",
+      "category": "abstention",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 81.0426367934526,
+        "ttft_s": 0.0456288360292092,
+        "latency_s": 4.191594630014151
+      },
+      "abstention": {
+        "abstained": false,
+        "correct": true
+      }
+    },
+    {
+      "id": "ab-12",
+      "category": "abstention",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 80.35888880727477,
+        "ttft_s": 0.045982498093508184,
+        "latency_s": 7.114273367100395
+      },
+      "abstention": {
+        "abstained": false,
+        "correct": true
+      }
+    },
+    {
+      "id": "ab-13",
+      "category": "abstention",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 81.34523855014434,
+        "ttft_s": 0.04710065491963178,
+        "latency_s": 6.931338871945627
+      },
+      "abstention": {
+        "abstained": false,
+        "correct": true
+      }
+    },
+    {
+      "id": "ab-14",
+      "category": "abstention",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 79.7946597255862,
+        "ttft_s": 0.048154106945730746,
+        "latency_s": 4.30909088102635
+      },
+      "abstention": {
+        "abstained": false,
+        "correct": true
+      }
+    },
+    {
+      "id": "ab-15",
+      "category": "abstention",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 2,
+        "called": [
+          "list_sources",
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 74.29490539452235,
+        "ttft_s": 0.046766293002292514,
+        "latency_s": 3.3309753340436146
+      },
+      "abstention": {
+        "abstained": false,
+        "correct": true
+      }
+    },
+    {
+      "id": "ab-16",
+      "category": "abstention",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 78.40571981363537,
+        "ttft_s": 0.05047806596849114,
+        "latency_s": 9.31000660196878
+      },
+      "abstention": {
+        "abstained": false,
+        "correct": true
+      }
+    },
+    {
+      "id": "ab-17",
+      "category": "abstention",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 77.50042487465024,
+        "ttft_s": 0.046560714952647686,
+        "latency_s": 4.988469106028788
+      },
+      "abstention": {
+        "abstained": false,
+        "correct": true
+      }
+    },
+    {
+      "id": "ab-18",
+      "category": "abstention",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 2,
+        "called": [
+          "list_sources",
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 76.35986131106374,
+        "ttft_s": 0.04618191590998322,
+        "latency_s": 4.66902949498035
+      },
+      "abstention": {
+        "abstained": false,
+        "correct": true
+      }
+    },
+    {
+      "id": "ab-19",
+      "category": "abstention",
+      "error": null,
+      "tool_use": {
+        "appropriate": false,
+        "arg_valid": 1.0,
+        "n_calls": 0,
+        "called": []
+      },
+      "perf": {
+        "tokens_per_sec": 86.36538806188446,
+        "ttft_s": 0.045102727017365396,
+        "latency_s": 2.7429427440511063
+      },
+      "abstention": {
+        "abstained": true,
+        "correct": false
+      }
+    },
+    {
+      "id": "sy-00",
+      "category": "synthesis",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 2,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 79.59922618755158,
+        "ttft_s": 0.051170926075428724,
+        "latency_s": 8.807537456043065
+      },
+      "grounding": {
+        "faithfulness": null,
+        "faithfulness_error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model.",
+        "citation": 0.7
+      },
+      "quality": {
+        "raw": 0.9,
+        "score_1_5": 4.6
+      }
+    },
+    {
+      "id": "sy-01",
+      "category": "synthesis",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 80.59658849504683,
+        "ttft_s": 0.05064356396906078,
+        "latency_s": 10.85755259403959
+      },
+      "grounding": {
+        "faithfulness": null,
+        "faithfulness_error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model.",
+        "citation": 0.7
+      },
+      "quality": {
+        "raw": 0.9,
+        "score_1_5": 4.6
+      }
+    },
+    {
+      "id": "sy-02",
+      "category": "synthesis",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 82.44139622864725,
+        "ttft_s": 0.053794093895703554,
+        "latency_s": 10.315629029995762
+      },
+      "grounding": {
+        "faithfulness": null,
+        "faithfulness_error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model.",
+        "citation": 0.7
+      },
+      "quality": {
+        "raw": 0.9,
+        "score_1_5": 4.6
+      }
+    },
+    {
+      "id": "sy-03",
+      "category": "synthesis",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 2,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 79.25478768273778,
+        "ttft_s": 0.05100115097593516,
+        "latency_s": 8.416426374926232
+      },
+      "grounding": {
+        "faithfulness": null,
+        "faithfulness_error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model.",
+        "citation": 1.0
+      },
+      "quality": {
+        "raw": 0.8,
+        "score_1_5": 4.2
+      }
+    },
+    {
+      "id": "sy-04",
+      "category": "synthesis",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 81.88028500023901,
+        "ttft_s": 0.04751714097801596,
+        "latency_s": 7.375288410927169
+      },
+      "grounding": {
+        "faithfulness": null,
+        "faithfulness_error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model.",
+        "citation": 0.9
+      },
+      "quality": {
+        "raw": 0.9,
+        "score_1_5": 4.6
+      }
+    },
+    {
+      "id": "sy-05",
+      "category": "synthesis",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 80.83211245560148,
+        "ttft_s": 0.05139967903960496,
+        "latency_s": 17.43310550507158
+      },
+      "grounding": {
+        "faithfulness": null,
+        "faithfulness_error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model.",
+        "citation": 0.9
+      },
+      "quality": {
+        "raw": 0.7,
+        "score_1_5": 3.8
+      }
+    },
+    {
+      "id": "sy-06",
+      "category": "synthesis",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 82.73172977498764,
+        "ttft_s": 0.04973560094367713,
+        "latency_s": 9.610758948954754
+      },
+      "grounding": {
+        "faithfulness": null,
+        "faithfulness_error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model.",
+        "citation": 0.9
+      },
+      "quality": {
+        "raw": 1.0,
+        "score_1_5": 5.0
+      }
+    },
+    {
+      "id": "sy-07",
+      "category": "synthesis",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 80.07803207879512,
+        "ttft_s": 0.05076927307527512,
+        "latency_s": 6.993996842065826
+      },
+      "grounding": {
+        "faithfulness": null,
+        "faithfulness_error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model.",
+        "citation": 0.9
+      },
+      "quality": {
+        "raw": 1.0,
+        "score_1_5": 5.0
+      }
+    },
+    {
+      "id": "sy-08",
+      "category": "synthesis",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 2,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 74.59873662540959,
+        "ttft_s": 0.051332057104445994,
+        "latency_s": 5.9897704280447215
+      },
+      "grounding": {
+        "faithfulness": null,
+        "faithfulness_error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model.",
+        "citation": 1.0
+      },
+      "quality": {
+        "raw": 1.0,
+        "score_1_5": 5.0
+      }
+    },
+    {
+      "id": "sy-09",
+      "category": "synthesis",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 2,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 81.06087832681449,
+        "ttft_s": 0.05189332994632423,
+        "latency_s": 12.264936420950107
+      },
+      "grounding": {
+        "faithfulness": null,
+        "faithfulness_error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model.",
+        "citation": 1.0
+      },
+      "quality": {
+        "raw": 0.7,
+        "score_1_5": 3.8
+      }
+    },
+    {
+      "id": "sy-10",
+      "category": "synthesis",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 83.05554599874667,
+        "ttft_s": 0.050437023979611695,
+        "latency_s": 11.307963402941823
+      },
+      "grounding": {
+        "faithfulness": null,
+        "faithfulness_error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model.",
+        "citation": 1.0
+      },
+      "quality": {
+        "raw": 0.9,
+        "score_1_5": 4.6
+      }
+    },
+    {
+      "id": "sy-11",
+      "category": "synthesis",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 80.66548587192293,
+        "ttft_s": 0.05523327400442213,
+        "latency_s": 14.299243430024944
+      },
+      "grounding": {
+        "faithfulness": null,
+        "faithfulness_error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model.",
+        "citation": 0.7
+      },
+      "quality": {
+        "raw": 1.0,
+        "score_1_5": 5.0
+      }
+    },
+    {
+      "id": "sy-12",
+      "category": "synthesis",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 79.90493044774301,
+        "ttft_s": 0.0487028700299561,
+        "latency_s": 11.474781272001565
+      },
+      "grounding": {
+        "faithfulness": null,
+        "faithfulness_error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model.",
+        "citation": 0.9
+      },
+      "quality": {
+        "raw": 1.0,
+        "score_1_5": 5.0
+      }
+    },
+    {
+      "id": "sy-13",
+      "category": "synthesis",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 2,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 77.47692586758356,
+        "ttft_s": 0.05331981205381453,
+        "latency_s": 12.01817243907135
+      },
+      "grounding": {
+        "faithfulness": null,
+        "faithfulness_error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model.",
+        "citation": 0.7
+      },
+      "quality": {
+        "raw": 0.0,
+        "score_1_5": 1.0
+      }
+    },
+    {
+      "id": "sy-14",
+      "category": "synthesis",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 77.6361874286754,
+        "ttft_s": 0.05010364297777414,
+        "latency_s": 14.746858311002143
+      },
+      "grounding": {
+        "faithfulness": null,
+        "faithfulness_error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model.",
+        "citation": 0.7
+      },
+      "quality": {
+        "raw": 1.0,
+        "score_1_5": 5.0
+      }
+    },
+    {
+      "id": "sy-15",
+      "category": "synthesis",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 81.18392354889585,
+        "ttft_s": 0.04727296403143555,
+        "latency_s": 7.807430054992437
+      },
+      "grounding": {
+        "faithfulness": null,
+        "faithfulness_error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model.",
+        "citation": 0.5
+      },
+      "quality": {
+        "raw": 0.5,
+        "score_1_5": 3.0
+      }
+    },
+    {
+      "id": "sy-16",
+      "category": "synthesis",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 78.45669153131475,
+        "ttft_s": 0.053925922024063766,
+        "latency_s": 19.2109916950576
+      },
+      "grounding": {
+        "faithfulness": null,
+        "faithfulness_error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model.",
+        "citation": 0.9
+      },
+      "quality": {
+        "raw": 1.0,
+        "score_1_5": 5.0
+      }
+    },
+    {
+      "id": "sy-17",
+      "category": "synthesis",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 2,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 79.00340063231994,
+        "ttft_s": 0.052615414024330676,
+        "latency_s": 9.811688996036537
+      },
+      "grounding": {
+        "faithfulness": null,
+        "faithfulness_error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model.",
+        "citation": 0.9
+      },
+      "quality": {
+        "raw": 0.7,
+        "score_1_5": 3.8
+      }
+    },
+    {
+      "id": "sy-18",
+      "category": "synthesis",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 79.3440812043226,
+        "ttft_s": 0.05023224698379636,
+        "latency_s": 6.326692853006534
+      },
+      "grounding": {
+        "faithfulness": null,
+        "faithfulness_error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model.",
+        "citation": 0.5
+      },
+      "quality": {
+        "raw": 0.8,
+        "score_1_5": 4.2
+      }
+    },
+    {
+      "id": "sy-19",
+      "category": "synthesis",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 2,
+        "called": [
+          "search_sources"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 79.00749637075587,
+        "ttft_s": 0.04750360001344234,
+        "latency_s": 7.8315750900655985
+      },
+      "grounding": {
+        "faithfulness": null,
+        "faithfulness_error": "Evaluation LLM outputted an invalid JSON. Please use a better evaluation model.",
+        "citation": 0.8
+      },
+      "quality": {
+        "raw": 0.7,
+        "score_1_5": 3.8
+      }
+    },
+    {
+      "id": "tex-01",
+      "category": "latex",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 2,
+        "called": [
+          "edit_file",
+          "read_file"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 79.46337570793,
+        "ttft_s": 0.0850784060312435,
+        "latency_s": 12.48072597605642
+      },
+      "latex": {
+        "edit_applied": true,
+        "cite_consistent": true,
+        "log": "tectonic unavailable",
+        "compiled": null
+      }
+    },
+    {
+      "id": "tex-02",
+      "category": "latex",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 3,
+        "called": [
+          "edit_file",
+          "read_file"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 78.30012471314546,
+        "ttft_s": 0.03544143296312541,
+        "latency_s": 17.966447355924174
+      },
+      "latex": {
+        "edit_applied": true,
+        "cite_consistent": true,
+        "log": "tectonic unavailable",
+        "compiled": null
+      }
+    },
+    {
+      "id": "tex-03",
+      "category": "latex",
+      "error": null,
+      "tool_use": {
+        "appropriate": false,
+        "arg_valid": 1.0,
+        "n_calls": 0,
+        "called": []
+      },
+      "perf": {
+        "tokens_per_sec": 84.41504435928883,
+        "ttft_s": 0.033941861940547824,
+        "latency_s": 9.084461301914416
+      },
+      "latex": {
+        "edit_applied": false,
+        "cite_consistent": false,
+        "log": "tectonic unavailable",
+        "compiled": null
+      }
+    },
+    {
+      "id": "tex-04",
+      "category": "latex",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 5,
+        "called": [
+          "edit_file",
+          "read_file",
+          "write_file"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 73.81666832336528,
+        "ttft_s": 0.035916156019084156,
+        "latency_s": 28.37639869900886
+      },
+      "latex": {
+        "edit_applied": true,
+        "cite_consistent": true,
+        "log": "tectonic unavailable",
+        "compiled": null
+      }
+    },
+    {
+      "id": "tex-05",
+      "category": "latex",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 6,
+        "called": [
+          "edit_file",
+          "list_files",
+          "read_file",
+          "write_file"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 75.45297421224682,
+        "ttft_s": 0.039166164002381265,
+        "latency_s": 29.925330672995187
+      },
+      "latex": {
+        "edit_applied": true,
+        "cite_consistent": true,
+        "log": "tectonic unavailable",
+        "compiled": null
+      }
+    },
+    {
+      "id": "tex-06",
+      "category": "latex",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 4,
+        "called": [
+          "edit_file",
+          "list_files",
+          "read_file"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 80.42642471300624,
+        "ttft_s": 0.03652807394973934,
+        "latency_s": 34.962859935942106
+      },
+      "latex": {
+        "edit_applied": true,
+        "cite_consistent": true,
+        "log": "tectonic unavailable",
+        "compiled": null
+      }
+    },
+    {
+      "id": "tex-07",
+      "category": "latex",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 4,
+        "called": [
+          "edit_file",
+          "list_files",
+          "read_file"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 79.14160768868511,
+        "ttft_s": 0.03843060089275241,
+        "latency_s": 24.3619192969054
+      },
+      "latex": {
+        "edit_applied": true,
+        "cite_consistent": true,
+        "log": "tectonic unavailable",
+        "compiled": null
+      }
+    },
+    {
+      "id": "tex-08",
+      "category": "latex",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 4,
+        "called": [
+          "edit_file",
+          "list_files",
+          "read_file"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 78.1557558031183,
+        "ttft_s": 0.03432419593445957,
+        "latency_s": 23.56426106498111
+      },
+      "latex": {
+        "edit_applied": true,
+        "cite_consistent": true,
+        "log": "tectonic unavailable",
+        "compiled": null
+      }
+    },
+    {
+      "id": "tex-09",
+      "category": "latex",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 4,
+        "called": [
+          "edit_file",
+          "list_files",
+          "read_file",
+          "write_file"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 79.66957452600428,
+        "ttft_s": 0.038136009010486305,
+        "latency_s": 34.27956400997937
+      },
+      "latex": {
+        "edit_applied": true,
+        "cite_consistent": true,
+        "log": "tectonic unavailable",
+        "compiled": null
+      }
+    },
+    {
+      "id": "tex-10",
+      "category": "latex",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 3,
+        "called": [
+          "edit_file",
+          "list_files",
+          "read_file"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 75.75087357216813,
+        "ttft_s": 0.03375141602009535,
+        "latency_s": 13.736563688027672
+      },
+      "latex": {
+        "edit_applied": true,
+        "cite_consistent": true,
+        "log": "tectonic unavailable",
+        "compiled": null
+      }
+    },
+    {
+      "id": "tex-11",
+      "category": "latex",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 5,
+        "called": [
+          "edit_file",
+          "list_files",
+          "read_file"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 78.2903546989337,
+        "ttft_s": 0.0381655830424279,
+        "latency_s": 26.861393145052716
+      },
+      "latex": {
+        "edit_applied": true,
+        "cite_consistent": true,
+        "log": "tectonic unavailable",
+        "compiled": null
+      }
+    },
+    {
+      "id": "tex-12",
+      "category": "latex",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 2,
+        "called": [
+          "edit_file",
+          "search_draft"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 81.64361716874242,
+        "ttft_s": 0.036962075042538345,
+        "latency_s": 25.476795242982917
+      },
+      "latex": {
+        "edit_applied": true,
+        "cite_consistent": true,
+        "log": "tectonic unavailable",
+        "compiled": null
+      }
+    },
+    {
+      "id": "tex-13",
+      "category": "latex",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 3,
+        "called": [
+          "edit_file",
+          "list_files",
+          "read_file"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 80.09817214913666,
+        "ttft_s": 0.036017628968693316,
+        "latency_s": 17.37723731889855
+      },
+      "latex": {
+        "edit_applied": true,
+        "cite_consistent": true,
+        "log": "tectonic unavailable",
+        "compiled": null
+      }
+    },
+    {
+      "id": "tex-14",
+      "category": "latex",
+      "error": null,
+      "tool_use": {
+        "appropriate": false,
+        "arg_valid": 1.0,
+        "n_calls": 0,
+        "called": []
+      },
+      "perf": {
+        "tokens_per_sec": 85.56030118400324,
+        "ttft_s": 0.035273710964247584,
+        "latency_s": 13.137144373962656
+      },
+      "latex": {
+        "edit_applied": false,
+        "cite_consistent": true,
+        "log": "tectonic unavailable",
+        "compiled": null
+      }
+    },
+    {
+      "id": "tex-15",
+      "category": "latex",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 3,
+        "called": [
+          "edit_file",
+          "list_files",
+          "read_file"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 78.84414369344253,
+        "ttft_s": 0.03660885605495423,
+        "latency_s": 14.241849062032998
+      },
+      "latex": {
+        "edit_applied": true,
+        "cite_consistent": true,
+        "log": "tectonic unavailable",
+        "compiled": null
+      }
+    },
+    {
+      "id": "tex-16",
+      "category": "latex",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 3,
+        "called": [
+          "edit_file",
+          "list_files",
+          "read_file"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 81.88105427084623,
+        "ttft_s": 0.039230941911228,
+        "latency_s": 37.41051331302151
+      },
+      "latex": {
+        "edit_applied": true,
+        "cite_consistent": true,
+        "log": "tectonic unavailable",
+        "compiled": null
+      }
+    },
+    {
+      "id": "tex-17",
+      "category": "latex",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 3,
+        "called": [
+          "edit_file",
+          "list_files",
+          "read_file"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 78.27577566489306,
+        "ttft_s": 0.03354154108092189,
+        "latency_s": 12.208444848074578
+      },
+      "latex": {
+        "edit_applied": true,
+        "cite_consistent": true,
+        "log": "tectonic unavailable",
+        "compiled": null
+      }
+    },
+    {
+      "id": "tex-18",
+      "category": "latex",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 1,
+        "called": [
+          "edit_file"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 81.40708400743254,
+        "ttft_s": 0.03498526802286506,
+        "latency_s": 10.353497597039677
+      },
+      "latex": {
+        "edit_applied": true,
+        "cite_consistent": true,
+        "log": "tectonic unavailable",
+        "compiled": null
+      }
+    },
+    {
+      "id": "tex-19",
+      "category": "latex",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 8,
+        "called": [
+          "edit_file",
+          "list_files",
+          "read_file",
+          "write_file"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 71.28486275172207,
+        "ttft_s": 0.03542280592955649,
+        "latency_s": 35.42863116192166
+      },
+      "latex": {
+        "edit_applied": true,
+        "cite_consistent": true,
+        "log": "tectonic unavailable",
+        "compiled": null
+      }
+    },
+    {
+      "id": "tex-20",
+      "category": "latex",
+      "error": null,
+      "tool_use": {
+        "appropriate": true,
+        "arg_valid": 1.0,
+        "n_calls": 2,
+        "called": [
+          "edit_file",
+          "write_file"
+        ]
+      },
+      "perf": {
+        "tokens_per_sec": 79.5326039909655,
+        "ttft_s": 0.037639971007592976,
+        "latency_s": 13.855872304062359
+      },
+      "latex": {
+        "edit_applied": true,
+        "cite_consistent": true,
+        "log": "tectonic unavailable",
+        "compiled": null
+      }
+    }
+  ]
+}
